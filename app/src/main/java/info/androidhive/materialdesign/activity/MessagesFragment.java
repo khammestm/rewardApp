@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,11 +30,11 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
     String[] StringDiet = {"No food", "Breakfast", "Banana diet", "Meat diet"};
 
     private Long mRowId;
-    private TextView meditName;
-    private TextView meditAge;
-    private TextView meditWeight;
-    private TextView meditHight;
-    private TextView mDiete;
+    private EditText meditName;
+    private EditText meditAge;
+    private EditText meditWeight;
+    private EditText meditHight;
+    private EditText mDiete;
     private Spinner mCategory;
 
     private Cursor cursor;
@@ -43,7 +44,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -51,16 +51,18 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_messages, container, false);
 
-        Button saveButton = (Button) getActivity().findViewById(R.id.buttonEdit);
+        Button saveButton = (Button) rootView.findViewById(R.id.buttonEdit);
         saveButton.setOnClickListener(this);
 
-        //TextView
-        meditName = (TextView)getActivity().findViewById(R.id.Name);
-        meditAge = (TextView) getActivity().findViewById(R.id.Age);
-        meditWeight = (TextView) getActivity().findViewById(R.id.Weight);
-        meditHight = (TextView) getActivity().findViewById(R.id.Height);
-        mDiete = (TextView) getActivity().findViewById(R.id.Diete);
+        Button editButton = (Button) rootView.findViewById(R.id.buttonSave);
+        editButton.setOnClickListener(this);
 
+        //TextView
+        meditName = (EditText)rootView.findViewById(R.id.Name);
+        meditAge = (EditText) rootView.findViewById(R.id.Age);
+        meditWeight = (EditText) rootView.findViewById(R.id.Weight);
+        meditHight = (EditText) rootView.findViewById(R.id.Height);
+        mDiete = (EditText) rootView.findViewById(R.id.Diete);
         mDbHelper = new DataBase(getActivity());
 
        /* mDbHelper.createNewTodo("","","","","");
@@ -71,25 +73,29 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
         fillData();
 
         // Inflate the layout for this fragment
-
+*/
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Button Clicked", Toast.LENGTH_SHORT).show();
-                //createNewTask();
+                Toast.makeText(getActivity(), "Button SAVE Clicked", Toast.LENGTH_SHORT).show();
+                SaveTextData();
             }
-        });*/
+        });
 
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "Button EDIT Clicked", Toast.LENGTH_SHORT).show();
+                EditTextData();
+            }
+        });
 
 
         return rootView;
     }
 
     public void onClick(View view)
-    {
-        //Toast.makeText(getActivity(), "Button Clicked", Toast.LENGTH_SHORT).show();
-        //createNewTask();
-    }
+    {}
 
     @Override
     public void onAttach(Activity activity) {
@@ -108,10 +114,41 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
     }*/
 
 
-    private void createNewTask() {
-        Intent intent = new Intent(getActivity(), MessagesFragmentEdit.class);
-        startActivityForResult(intent, 1);
+    private void SaveTextData() {
+        meditName.setFocusable(false);
+        meditName.setClickable(false);
+
+        meditAge.setFocusable(false);
+        meditAge.setClickable(false);
+
+        meditWeight.setFocusable(false);
+        meditWeight.setClickable(false);
+
+        meditHight.setFocusable(false);
+        meditHight.setClickable(false);
+
+        mDiete.setFocusable(false);
+        mDiete.setClickable(false);
     }
+
+    private void EditTextData()
+    {
+        meditName.setFocusable(true);
+        meditName.setClickable(true);
+
+        meditAge.setFocusable(true);
+        meditAge.setClickable(true);
+
+        meditWeight.setFocusable(true);
+        meditWeight.setClickable(true);
+
+        meditHight.setFocusable(true);
+        meditHight.setClickable(true);
+
+        mDiete.setFocusable(true);
+        mDiete.setClickable(true);
+    }
+
 
     private void fillData() {
         Log.d("filldata", "filldata");
