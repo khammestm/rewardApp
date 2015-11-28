@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_messages);
                 break;
             case 3:
-                fragment = new MessagesFragment();
-                title = getString(R.string.title_messages);
+                fragment = new DataFragment();
+                title = getString(R.string.title_data);
                 break;
             default:
                 break;
