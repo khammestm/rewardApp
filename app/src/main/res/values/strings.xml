@@ -26,6 +26,7 @@
     <string name="string1">GOOD TIME TO START</string>
     <string name="string2">LUNCH TIME</string>
     <string name="string3">DO SOME EXERCISES, COME ON</string>
-    <string name="string4">ITS TIME TO SLEEP</string>
+    <string name="string4">ITS TIME TO SLEEP</string
+	<string name="string5">CHANGE VARIABLES</string>
 
 </resources>
