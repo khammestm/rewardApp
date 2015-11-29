@@ -26,7 +26,20 @@
     <string name="string1">GOOD TIME TO START</string>
     <string name="string2">LUNCH TIME</string>
     <string name="string3">DO SOME EXERCISES, COME ON</string>
-    <string name="string4">ITS TIME TO SLEEP</string
+    <string name="string4">ITS TIME TO SLEEP</string>
 	<string name="string5">CHANGE VARIABLES</string>
+
+    <string name="ble_not_supported">Bluetooth_not_supported</string>
+    <string name="error_bluetooth_not_supported">Bluetooth_not_supported</string>
+
+    <string name="title_devices">Device title</string>
+    <string name="menu_scan">Scan</string>
+    <string name="menu_stop">Stop</string>
+    <string name="device_name">Device name</string>
+    <string name="device_address">Device address</string>
+    <string name="unknown_device">Unknown device</string>
+
+    <string name="title_steps">Steps result</string>
+    <string name="title_scan_device">Scan device</string>
 
 </resources>

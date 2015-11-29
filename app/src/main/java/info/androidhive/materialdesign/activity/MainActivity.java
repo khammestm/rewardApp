@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_home);
                 break;
             case 1:
-                fragment = new FriendsFragment();
+                fragment = new StepsFragment();
                 title = getString(R.string.title_friends);
                 break;
             case 2:
