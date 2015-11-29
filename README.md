@@ -1,5 +1,1 @@
-# DASHA_GRUSTIT_ESHE_SILNEE
-# APP-LAB2
-# APP-LAB2
-# APP-LAB2
-# APP-LAB2
+# Android application. Reward system for fitness tracker.
