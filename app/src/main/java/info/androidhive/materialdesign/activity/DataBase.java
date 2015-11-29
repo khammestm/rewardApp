@@ -9,9 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class DataBase extends SQLiteOpenHelper {
@@ -20,8 +18,8 @@ public class DataBase extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "todo_app.db";
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_TABLE = "todos";
-    private static final String DATABASE_DATA_TABLE = "data";
+    private static final String USER_TABLE = "todos";
+    private static final String DATA_TABLE = "data";
 
     /**
      * Table #1 - User information
@@ -36,7 +34,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     // Create table User information
     private static final String DATABASE_CREATE = "create table "
-            + DATABASE_TABLE + "(" + COLUMN_ID
+            + USER_TABLE + "(" + COLUMN_ID
             + " integer primary key autoincrement, " + COLUMN_NAME
             + " text not null, " + COLUMN_AGE + " text not null,"
             + COLUMN_WEIGHT  + " text not null,"
@@ -46,19 +44,20 @@ public class DataBase extends SQLiteOpenHelper {
     /**
      * Table #2 - Users statistics
      */
-    public static final String COLUMN_ID2 = "_id";
+    public static final String KEY_ID = "_id";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_STEPS = "steps";
     public static final String COLUMN_DISTANCE = "distance";
     public static final String COLUMN_CALORIES = "calories";
 
     // Create table User information
-    private static final String DATABASE_DATA_CREATE = "create table "
-            + DATABASE_DATA_TABLE + "(" + COLUMN_ID2
-            + " integer primary key autoincrement, " + COLUMN_DATE
-            + " DATETIME DEFAULT CURRENT_TIMESTAMP, " + COLUMN_STEPS + " text not null,"
+    private static final String TABLE_DATA_CREATE = "create table "
+            + DATA_TABLE + "(" + KEY_ID
+            + " integer primary key autoincrement, "
+            + COLUMN_DATE + " text not null,"
+            + COLUMN_STEPS + " text not null,"
             + COLUMN_DISTANCE  + " text not null,"
-            + COLUMN_CALORIES + " text not null,"+ ");";
+            + COLUMN_CALORIES + " text not null);";
 
     public DataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -68,7 +67,7 @@ public class DataBase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL(DATABASE_CREATE);
-        db.execSQL(DATABASE_DATA_CREATE);
+        db.execSQL(TABLE_DATA_CREATE);
     }
 
     @Override
@@ -78,8 +77,10 @@ public class DataBase extends SQLiteOpenHelper {
                 + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS todos");
+        db.execSQL("DROP TABLE IF EXISTS" + DATA_TABLE);
         onCreate(db);
     }
+
     /**
      * Создаёт новый элемент списка дел. Если создан успешно - возвращается
      * номер строки rowId, иначе -1
@@ -89,7 +90,7 @@ public class DataBase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues initialValues = createContentValues(name, age, weight, heiht, diete);
 
-        long row = db.insert(DATABASE_TABLE, null, initialValues);
+        long row = db.insert(USER_TABLE, null, initialValues);
         db.close();
         return row;
     }
@@ -100,7 +101,7 @@ public class DataBase extends SQLiteOpenHelper {
     public boolean updateTodo(long rowId, String name, String age, String weight, String heiht, String diete) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues updateValues = createContentValues(name, age, weight, heiht, diete);
-        return db.update(DATABASE_TABLE, updateValues, COLUMN_ID + "=" + rowId, null) > 0;
+        return db.update(USER_TABLE, updateValues, COLUMN_ID + "=" + rowId, null) > 0;
     }
 
     /**
@@ -108,7 +109,7 @@ public class DataBase extends SQLiteOpenHelper {
      */
     public void deleteTodo(long rowId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DATABASE_TABLE, COLUMN_ID + "=" + rowId, null);
+        db.delete(USER_TABLE, COLUMN_ID + "=" + rowId, null);
         db.close();
     }
 
@@ -118,7 +119,7 @@ public class DataBase extends SQLiteOpenHelper {
      */
     public Cursor getAllTodos() {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.query(DATABASE_TABLE, new String[] { COLUMN_ID,
+        return db.query(USER_TABLE, new String[] { COLUMN_ID,
                         COLUMN_NAME, COLUMN_AGE, COLUMN_WEIGHT,COLUMN_HEIHT,COLUMN_DIETE }, null,
                 null, null, null, null);
     }
@@ -128,7 +129,7 @@ public class DataBase extends SQLiteOpenHelper {
      */
     public Cursor getTodo(long rowId) throws SQLException {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor mCursor = db.query(true, DATABASE_TABLE,
+        Cursor mCursor = db.query(true, USER_TABLE,
                 new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_AGE,
                         COLUMN_WEIGHT, COLUMN_HEIHT, COLUMN_DIETE}, COLUMN_ID + "=" + rowId, null,
                 null, null, null, null);
@@ -162,10 +163,17 @@ public class DataBase extends SQLiteOpenHelper {
     public long createNewDataRecord(String steps, String distance, String calories)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues initialValues = createContentValues(getDateTime(), steps, distance, calories);
+        ContentValues initialValues = new ContentValues();
+        String time = getDateTime();
 
-        long row = db.insert(DATABASE_DATA_TABLE, null, initialValues);
+        initialValues.put(COLUMN_DATE, time);
+        initialValues.put(COLUMN_STEPS, steps);
+        initialValues.put(COLUMN_DISTANCE, distance);
+        initialValues.put(COLUMN_CALORIES, calories);
+
+        long row = db.insert(DATA_TABLE, null, initialValues);
         db.close();
+
         return row;
     }
 
@@ -174,8 +182,8 @@ public class DataBase extends SQLiteOpenHelper {
      */
     public boolean updateDataRecords(long rowId, String date, String steps, String distance, String calories) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues updateValues = createContentValues(date, steps, distance, calories);
-        return db.update(DATABASE_DATA_TABLE, updateValues, COLUMN_ID + "=" + rowId, null) > 0;
+        ContentValues updateValues = createContentValuesData(date, steps, distance, calories);
+        return db.update(DATA_TABLE, updateValues, COLUMN_ID + "=" + rowId, null) > 0;
     }
 
     /**
@@ -183,7 +191,7 @@ public class DataBase extends SQLiteOpenHelper {
      */
     public void deleteDataRecord(long rowId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DATABASE_DATA_TABLE, COLUMN_ID2 + "=" + rowId, null);
+        db.delete(DATA_TABLE, KEY_ID + "=" + rowId, null);
         db.close();
     }
 
@@ -194,8 +202,8 @@ public class DataBase extends SQLiteOpenHelper {
      */
     public Cursor getLastDataRecord() throws SQLException {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor mCursor = db.query(true, DATABASE_DATA_TABLE,
-                new String[]{COLUMN_ID2, COLUMN_DATE, COLUMN_STEPS,
+        Cursor mCursor = db.query(true, DATA_TABLE,
+                new String[]{KEY_ID, COLUMN_DATE, COLUMN_STEPS,
                         COLUMN_DISTANCE, COLUMN_CALORIES}, null, null,
                 null, null, null, null);
         if (mCursor != null) {
@@ -210,14 +218,15 @@ public class DataBase extends SQLiteOpenHelper {
      */
     public Cursor getAllDataRecords() {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.query(DATABASE_DATA_TABLE, new String[] { COLUMN_ID2,
-                        COLUMN_DATE, COLUMN_AGE, COLUMN_WEIGHT,COLUMN_HEIHT,COLUMN_DIETE }, null,
+
+        return db.query(DATA_TABLE, new String[] { KEY_ID,
+                        COLUMN_DATE, COLUMN_STEPS, COLUMN_DISTANCE, COLUMN_CALORIES }, null,
                 null, null, null, null);
     }
     /*
      * Create and write new key-value for data record
      */
-    private ContentValues createContentValues(String date, String steps,
+    private ContentValues createContentValuesData(String date, String steps,
                                               String distance, String calories) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, date);
@@ -229,7 +238,7 @@ public class DataBase extends SQLiteOpenHelper {
     }
 
     public Cursor fetchAllReminders(){
-        return mDb.query(DATABASE_TABLE, new String[] {COLUMN_ID2, COLUMN_DATE,
+        return mDb.query(USER_TABLE, new String[] {KEY_ID, COLUMN_DATE,
                 COLUMN_STEPS, COLUMN_DISTANCE, COLUMN_CALORIES}, null, null, null, null, null);
     }
 
