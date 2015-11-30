@@ -19,6 +19,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <receiver android:name=".DeviceBootReceiver"
+                android:enabled="true">
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                </intent-filter>
+            </receiver>
+
         </activity>
         <service android:name=".device.BluetoothLeService" android:enabled="true"/>
 

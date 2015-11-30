@@ -157,7 +157,7 @@ public class DataBase extends SQLiteOpenHelper {
     // Table 2 - Data records operations
 
     /**
-     * Create new Data record
+     * Create new Data record with current time
      * Row number is equal rowId, else -1
      */
     public long createNewDataRecord(String steps, String distance, String calories)
@@ -177,6 +177,25 @@ public class DataBase extends SQLiteOpenHelper {
         return row;
     }
 
+    /**
+     * Create new Data record with specified time
+     * Row number is equal rowId, else -1
+     */
+    public long createNewDataRecord(String date, String steps, String distance, String calories)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues initialValues = new ContentValues();
+
+        initialValues.put(COLUMN_DATE, date);
+        initialValues.put(COLUMN_STEPS, steps);
+        initialValues.put(COLUMN_DISTANCE, distance);
+        initialValues.put(COLUMN_CALORIES, calories);
+
+        long row = db.insert(DATA_TABLE, null, initialValues);
+        db.close();
+
+        return row;
+    }
     /**
      * Update user data records
      */

@@ -4,13 +4,17 @@ package info.androidhive.materialdesign.activity;
  * Created by Ravi on 29/07/15.
  */
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +23,8 @@ import info.androidhive.materialdesign.R;
 
 
 public class HomeFragment extends Fragment {
+    private DataBase mDbHelper;
+    private SQLiteDatabase mDb;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -39,6 +45,8 @@ public class HomeFragment extends Fragment {
         TextView txtCurrentDate= (TextView)rootView.findViewById(R.id.Data);
         TextView txtCurrentTime= (TextView)rootView.findViewById(R.id.Time);
         TextView recommendation= (TextView)rootView.findViewById(R.id.MOVE);
+        final TextView deviceData= (TextView)rootView.findViewById(R.id.data_home);
+        Button updateData = (Button) rootView.findViewById(R.id.read_result);
 
         Date d = new Date();
         CharSequence time = DateFormat.format("yyyy-MM-dd", d.getTime());
@@ -62,6 +70,16 @@ public class HomeFragment extends Fragment {
                 recommendation.setText(R.string.string4);
                 break;
         }
+
+        deviceData.setText(showLastDataRecord());
+
+        updateData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deviceData.setText(showLastDataRecord());
+            }
+        });
+
         return rootView;
     }
 
@@ -73,5 +91,24 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    private String showLastDataRecord(){
+        mDbHelper = new DataBase(getActivity());
+        Cursor cursor = mDbHelper.getLastDataRecord();
+        String result = new String();
+        if ((cursor != null) && (cursor.getCount() > 0)){
+            String date = cursor.getString(cursor.getColumnIndex("date"));
+            String steps = cursor.getString(cursor.getColumnIndex("steps"));
+            String distance = cursor.getString(cursor.getColumnIndex("distance"));
+            String calories = cursor.getString(cursor.getColumnIndex("calories"));
+            result = "Date:"+date+"\n" +
+                    "Steps:"+steps+"\n" +
+                    "Distance: "+distance+"\n" +
+                    "Calories: "+calories;
+        }
+
+        mDbHelper.close();
+        return result;
     }
 }
