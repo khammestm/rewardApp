@@ -117,7 +117,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
         meditName.getText().clear();
         mDbHelper = new DataBase(getActivity());
 
-        //mDbHelper.createNewTodo("33","33","33","33","33","33");
+        mDbHelper.createNewTodo("33","33","33","33","33","33");
         //mDbHelper.createNewTodo("mTitleText","mBodyText","meditWeight");
 
         mDb = mDbHelper.getWritableDatabase();

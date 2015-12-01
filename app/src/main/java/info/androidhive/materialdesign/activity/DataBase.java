@@ -31,8 +31,8 @@ public class DataBase extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_AGE = "age";
     public static final String COLUMN_WEIGHT = "weight";
-    public static final String COLUMN_HEIHT = "heiht";
-    public static final String COLUMN_DIETE = "diete";
+    public static final String COLUMN_HEIGHT = "heiht";
+    public static final String COLUMN_DIET = "diete";
     public static final String COLUMN_LOOK = "look";
 
     // Create table User information
@@ -41,8 +41,8 @@ public class DataBase extends SQLiteOpenHelper {
             + " integer primary key autoincrement, " + COLUMN_NAME
             + " text not null, " + COLUMN_AGE + " text not null,"
             + COLUMN_WEIGHT  + " text not null,"
-            + COLUMN_HEIHT + " text not null,"
-            + COLUMN_DIETE + " text not null,"
+            + COLUMN_HEIGHT + " text not null,"
+            + COLUMN_DIET + " text not null,"
             + COLUMN_LOOK + " text not null" + ");";
 
     /**
@@ -138,7 +138,7 @@ public class DataBase extends SQLiteOpenHelper {
     public Cursor getAllTodos() {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.query(USER_TABLE, new String[] { COLUMN_ID,
-                        COLUMN_NAME, COLUMN_AGE, COLUMN_WEIGHT,COLUMN_HEIHT,COLUMN_DIETE, COLUMN_LOOK }, null,
+                        COLUMN_NAME, COLUMN_AGE, COLUMN_WEIGHT,COLUMN_HEIGHT,COLUMN_DIET    , COLUMN_LOOK }, null,
                 null, null, null, null);
     }
 
@@ -149,7 +149,7 @@ public class DataBase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor mCursor = db.query(true, USER_TABLE,
                 new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_AGE,
-                        COLUMN_WEIGHT, COLUMN_HEIHT, COLUMN_DIETE, COLUMN_LOOK}, COLUMN_ID + "=" + rowId, null,
+                        COLUMN_WEIGHT, COLUMN_HEIGHT, COLUMN_DIET, COLUMN_LOOK}, COLUMN_ID + "=" + rowId, null,
                 null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -166,8 +166,8 @@ public class DataBase extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_AGE, age);
         values.put(COLUMN_WEIGHT, weight);
-        values.put(COLUMN_HEIHT, heiht);
-        values.put(COLUMN_DIETE, diete);
+        values.put(COLUMN_HEIGHT, heiht);
+        values.put(COLUMN_DIET, diete);
         values.put(COLUMN_LOOK, look);
 
         return values;
@@ -196,25 +196,6 @@ public class DataBase extends SQLiteOpenHelper {
         return row;
     }
 
-    /**
-     * Create new Data record with specified time
-     * Row number is equal rowId, else -1
-     */
-    public long createNewDataRecord(String date, String steps, String distance, String calories)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues initialValues = new ContentValues();
-
-        initialValues.put(COLUMN_DATE, date);
-        initialValues.put(COLUMN_STEPS, steps);
-        initialValues.put(COLUMN_DISTANCE, distance);
-        initialValues.put(COLUMN_CALORIES, calories);
-
-        long row = db.insert(DATA_TABLE, null, initialValues);
-        db.close();
-
-        return row;
-    }
     /**
      * Update user data records
      */
@@ -275,12 +256,7 @@ public class DataBase extends SQLiteOpenHelper {
         return values;
     }
 
-    public Cursor fetchAllReminders(){
-        return mDb.query(USER_TABLE, new String[] {KEY_ID, COLUMN_DATE,
-                COLUMN_STEPS, COLUMN_DISTANCE, COLUMN_CALORIES}, null, null, null, null, null);
-    }
-
-    /**
+     /**
      * Date and time formatting function
      * @return - formatted date and time in String value
      */
