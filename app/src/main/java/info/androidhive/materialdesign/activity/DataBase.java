@@ -17,6 +17,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     private static SQLiteDatabase mDb;
 
+    private static final String TAG = "Database";
     private static final String DATABASE_NAME = "todo_app.db";
     private static final int DATABASE_VERSION = 1;
     private static final String USER_TABLE = "todos";
@@ -199,10 +200,17 @@ public class DataBase extends SQLiteOpenHelper {
     /**
      * Update user data records
      */
-    public boolean updateDataRecords(long rowId, String date, String steps, String distance, String calories) {
+    public boolean updateDataRecord(long rowId, String steps, String distance, String calories) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues updateValues = createContentValuesData(date, steps, distance, calories);
-        return db.update(DATA_TABLE, updateValues, COLUMN_ID + "=" + rowId, null) > 0;
+        ContentValues updateValues = new ContentValues();
+        String time = getDateTime();
+        Log.d(TAG, "Updating " + time + " RowID:" + String.valueOf(rowId));
+        updateValues.put(COLUMN_DATE, time);
+        updateValues.put(COLUMN_STEPS, steps);
+        updateValues.put(COLUMN_DISTANCE, distance);
+        updateValues.put(COLUMN_CALORIES, calories);
+
+        return db.update(DATA_TABLE, updateValues, KEY_ID + "=" + rowId, null) > 0;
     }
 
     /**
@@ -227,6 +235,23 @@ public class DataBase extends SQLiteOpenHelper {
                 null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToPosition(mCursor.getCount() - 1);
+        }
+        return mCursor;
+    }
+
+    /**
+     * Return cursor with requested record for user information
+     * @return Cursor with requested record for user data
+     * @throws SQLException
+     */
+    public Cursor getLastNDataRecord(int n) throws SQLException {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor mCursor = db.query(true, DATA_TABLE,
+                new String[]{KEY_ID, COLUMN_DATE, COLUMN_STEPS,
+                        COLUMN_DISTANCE, COLUMN_CALORIES}, null, null,
+                null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToPosition(mCursor.getCount() - n);
         }
         return mCursor;
     }

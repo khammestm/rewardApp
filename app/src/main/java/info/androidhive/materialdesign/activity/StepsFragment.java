@@ -32,6 +32,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import info.androidhive.materialdesign.R;
@@ -129,10 +134,6 @@ public class StepsFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Button REFRESH Clicked", Toast.LENGTH_SHORT).show();
                 reconnect();
-                if(mData != null){
-                    writeDataToDB(mData);
-                }
-
             }
         });
 
@@ -146,8 +147,8 @@ public class StepsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mData != null) {
-                    long i = mDbHelper.createNewDataRecord(mData,convertToDistance(mData), convertToCalories(mData));
-                    Toast.makeText(getActivity(), "Write to Database. Row:" + Long.valueOf(i), Toast.LENGTH_SHORT).show();
+                    writeDataToDB(mData);
+                    Toast.makeText(getActivity(), "Write to Database.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -166,11 +167,13 @@ public class StepsFragment extends Fragment {
 //                }
 //                cursor.close();
                 Cursor cursor = mDbHelper.getLastDataRecord();
+                String id = cursor.getString(cursor.getColumnIndex("_id"));
                 String date = cursor.getString(cursor.getColumnIndex("date"));
                 String steps = cursor.getString(cursor.getColumnIndex("steps"));
                 String distance = cursor.getString(cursor.getColumnIndex("distance"));
                 String calories = cursor.getString(cursor.getColumnIndex("calories"));
                 dataBaseField.setText(
+                        "ID:"+id+"\n" +
                         "Date:"+date+"\n" +
                         "Steps:"+steps+"\n" +
                         "Distance: "+distance+"\n" +
@@ -304,7 +307,7 @@ public class StepsFragment extends Fragment {
         double stepsInt = Double.parseDouble(steps);
         double distance = stepsInt * 0.698;
         Long L = Math.round(distance);
-        int distanceInt = Integer.valueOf(L.intValue());
+        int distanceInt = L.intValue();
 
         return Integer.toString(distanceInt);
     }
@@ -318,14 +321,42 @@ public class StepsFragment extends Fragment {
         double stepsInt = Double.parseDouble(steps);
         double calories = stepsInt * 0.048;
         Long L = Math.round(calories);
-        int caloriesInt = Integer.valueOf(L.intValue());
+        int caloriesInt = L.intValue();
 
         return Integer.toString(caloriesInt);
     }
 
     private void writeDataToDB(String data){
         mDb = mDbHelper.getWritableDatabase();
-        mDbHelper.createNewDataRecord(mData,convertToDistance(mData), convertToCalories(mData));
+        Cursor cursor = mDbHelper.getLastDataRecord();
+        // Check if cursor is empty
+        if (!(cursor.moveToFirst()) || cursor.getCount() == 0 ){
+            //cursor is empty
+            Log.d(TAG, "Data record is empty. Writng the first row");
+            mDbHelper.createNewDataRecord(data,convertToDistance(data), convertToCalories(data));
+        }
+        // Get last row data record
+        cursor = mDbHelper.getLastDataRecord();
+        String dateDB = cursor.getString(cursor.getColumnIndex("date"));
+        long id = cursor.getLong(cursor.getColumnIndex("_id"));
+        Log.d(TAG, "Data record "+dateDB);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date dateDBform = format.parse(dateDB);
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+            Date today = Calendar.getInstance().getTime();
+            if (fmt.format(dateDBform).equals(fmt.format(today))){
+                Log.d(TAG, "Data record updated");
+                mDbHelper.updateDataRecord(id, data, convertToDistance(data), convertToCalories(data));
+            } else {
+                mDbHelper.createNewDataRecord(data,convertToDistance(data), convertToCalories(data));
+            }
+        } catch (ParseException e) {
+            Log.d(TAG, "Something wrong with data comparing");
+            e.printStackTrace();
+        }
+
         mDbHelper.close();
     }
 
