@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="info.androidhive.materialdesign.activity.StepsActivity">
+
+    <TextView
+        android:layout_below="@id/label"
+        android:layout_centerInParent="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:text="Your steps result for today" />
+
+    <TextView
+        android:id="@+id/step_data"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="100dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="45dp"
+        android:text="FRIENDS"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/reconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:text="Refresh"
+        />
+
+    <Button
+        android:id="@+id/write_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp"
+        android:text="Write"
+        />
+    <Button
+        android:id="@+id/read_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:text="Read"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_result"
+        android:textSize="12dp"
+        android:layout_marginTop="450dp"
+        android:text="Results will be here" />
+
+</RelativeLayout>
