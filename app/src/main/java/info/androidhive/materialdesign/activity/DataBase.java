@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -20,6 +21,7 @@ public class DataBase extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String USER_TABLE = "todos";
     private static final String DATA_TABLE = "data";
+    private static final String GOAL_TABLE = "goal";
 
     /**
      * Table #1 - User information
@@ -31,6 +33,7 @@ public class DataBase extends SQLiteOpenHelper {
     public static final String COLUMN_WEIGHT = "weight";
     public static final String COLUMN_HEIHT = "heiht";
     public static final String COLUMN_DIETE = "diete";
+    public static final String COLUMN_LOOK = "look";
 
     // Create table User information
     private static final String DATABASE_CREATE = "create table "
@@ -39,7 +42,8 @@ public class DataBase extends SQLiteOpenHelper {
             + " text not null, " + COLUMN_AGE + " text not null,"
             + COLUMN_WEIGHT  + " text not null,"
             + COLUMN_HEIHT + " text not null,"
-            + COLUMN_DIETE + " text not null" + ");";
+            + COLUMN_DIETE + " text not null,"
+            + COLUMN_LOOK + " text not null" + ");";
 
     /**
      * Table #2 - Users statistics
@@ -59,6 +63,19 @@ public class DataBase extends SQLiteOpenHelper {
             + COLUMN_DISTANCE  + " text not null,"
             + COLUMN_CALORIES + " text not null);";
 
+    /**
+     * Table #3 - User goals
+     */
+    public static final String GOAL_DATE = "date";
+    public static final String GOAL_DISTANCE = "distance";
+
+    // Create table User information
+    private static final String GOAL_TABLE_CREATE = "create table "
+            + GOAL_TABLE + "(" + KEY_ID
+            + " integer primary key autoincrement, "
+            + GOAL_DATE + " int not null,"
+            + GOAL_DISTANCE + " text not null);";
+
     public DataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -68,6 +85,7 @@ public class DataBase extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(DATABASE_CREATE);
         db.execSQL(TABLE_DATA_CREATE);
+
     }
 
     @Override
@@ -85,10 +103,10 @@ public class DataBase extends SQLiteOpenHelper {
      * Создаёт новый элемент списка дел. Если создан успешно - возвращается
      * номер строки rowId, иначе -1
      */
-    public long createNewTodo(String name, String age, String weight, String heiht, String diete)
+    public long createNewTodo(String name, String age, String weight, String heiht, String diete, String look)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues initialValues = createContentValues(name, age, weight, heiht, diete);
+        ContentValues initialValues = createContentValues(name, age, weight, heiht, diete, look);
 
         long row = db.insert(USER_TABLE, null, initialValues);
         db.close();
@@ -98,9 +116,9 @@ public class DataBase extends SQLiteOpenHelper {
     /**
      * Update user information records
      */
-    public boolean updateTodo(long rowId, String name, String age, String weight, String heiht, String diete) {
+    public boolean updateTodo(long rowId, String name, String age, String weight, String heiht, String diete, String look) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues updateValues = createContentValues(name, age, weight, heiht, diete);
+        ContentValues updateValues = createContentValues(name, age, weight, heiht, diete, look);
         return db.update(USER_TABLE, updateValues, COLUMN_ID + "=" + rowId, null) > 0;
     }
 
@@ -120,7 +138,7 @@ public class DataBase extends SQLiteOpenHelper {
     public Cursor getAllTodos() {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.query(USER_TABLE, new String[] { COLUMN_ID,
-                        COLUMN_NAME, COLUMN_AGE, COLUMN_WEIGHT,COLUMN_HEIHT,COLUMN_DIETE }, null,
+                        COLUMN_NAME, COLUMN_AGE, COLUMN_WEIGHT,COLUMN_HEIHT,COLUMN_DIETE, COLUMN_LOOK }, null,
                 null, null, null, null);
     }
 
@@ -131,7 +149,7 @@ public class DataBase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor mCursor = db.query(true, USER_TABLE,
                 new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_AGE,
-                        COLUMN_WEIGHT, COLUMN_HEIHT, COLUMN_DIETE}, COLUMN_ID + "=" + rowId, null,
+                        COLUMN_WEIGHT, COLUMN_HEIHT, COLUMN_DIETE, COLUMN_LOOK}, COLUMN_ID + "=" + rowId, null,
                 null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -143,13 +161,14 @@ public class DataBase extends SQLiteOpenHelper {
      * Create key-value pair and write it to database
      */
     private ContentValues createContentValues(String name, String age,
-                                              String weight, String heiht, String diete) {
+                                              String weight, String heiht, String diete, String look) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_AGE, age);
         values.put(COLUMN_WEIGHT, weight);
         values.put(COLUMN_HEIHT, heiht);
         values.put(COLUMN_DIETE, diete);
+        values.put(COLUMN_LOOK, look);
 
         return values;
     }
@@ -271,4 +290,43 @@ public class DataBase extends SQLiteOpenHelper {
         Date date = new Date();
         return dateFormat.format(date);
     }
+
+    /// Table #3 - Goal table CRUD operations
+    public void printTables() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> dirArray = new ArrayList<String>();
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+        while(c.moveToNext()){
+            String s = c.getString(0);
+            if(s.equals("android_metadata"))
+            {
+                System.out.println("Get Metadata");
+                continue;
+            }
+            else
+            {
+                dirArray.add(s);
+            }
+        }
+        Log.d("DB", dirArray.toString());
+    }
+
+    public long insertGoal(long timestamp, String distance)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(GOAL_DATE, timestamp);
+        values.put(GOAL_DISTANCE, distance);
+        long row = db.insert(GOAL_TABLE, null, values);
+        db.close();
+        return row;
+    }
+
+    public Cursor getAllGoals() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.query(GOAL_TABLE, new String[] { KEY_ID, GOAL_DATE, GOAL_DISTANCE }, null,
+                null, null, null, null);
+    }
+
+
 }

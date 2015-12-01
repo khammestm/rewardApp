@@ -1,9 +1,15 @@
 package info.androidhive.materialdesign.activity;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
+    private static final int uniqueID=45612;
+    NotificationCompat.Builder notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +43,28 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
 
+
+
         // display the first navigation drawer view on app launch
         displayView(0);
+    }
+
+    public void notifButtonClicked(View view) {
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        notification.setSmallIcon(R.mipmap.ic_launcher);
+        notification.setTicker("This is the ticker");
+        notification.setWhen(System.currentTimeMillis());
+        notification.setContentTitle("Here is the title");
+        notification.setContentText("I am the body of not");
+        notification.setSound(alarmSound);
+        notification.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+
+        Intent intent=new Intent(this,MainActivity.class);
+        PendingIntent pendingIntent= PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        notification.setContentIntent(pendingIntent);
+
+        NotificationManager nm=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.notify(uniqueID, notification.build());
     }
 
 
@@ -78,19 +106,27 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         switch (position) {
             case 0:
                 fragment = new HomeFragment();
-                title = getString(R.string.title_home);
+                title = getString(R.string.title_today);
                 break;
             case 1:
                 fragment = new StepsFragment();
-                title = getString(R.string.title_friends);
+                title = getString(R.string.title_daily_activity);
                 break;
             case 2:
-                fragment = new MessagesFragment();
-                title = getString(R.string.title_messages);
+                fragment = new StepsAddGoalFragment();
+                title = getString(R.string.title_set_goal);
                 break;
             case 3:
-                fragment = new DataFragment();
-                title = getString(R.string.title_data);
+                fragment = new MessagesFragment();
+                title = getString(R.string.title_personal_data);
+                break;
+            case 4:
+                fragment = new StatsFragment();
+                title = getString(R.string.title_statistics);
+                break;
+            case 5:
+                fragment = new AboutFragment();
+                title = getString(R.string.title_about);
                 break;
             default:
                 break;

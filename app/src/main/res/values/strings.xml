@@ -18,10 +18,12 @@
         <item>@string/nav_item_data</item>
     </string-array>
 
-    <string name="title_messages">PERSONAL DATA</string>
-    <string name="title_friends">DAILY ACTIVITY</string>
-    <string name="title_home">TODAY</string>
-    <string name="title_data">ABOUT</string>
+    <string name="title_personal_data">PERSONAL DATA</string>
+    <string name="title_daily_activity">DAILY ACTIVITY</string>
+    <string name="title_today">TODAY</string>
+    <string name="title_set_goal">SET THE GOAL</string>
+    <string name="title_statistics">STATISTICS</string>
+    <string name="title_about">ABOUT</string>
 
     <string name="string1">GOOD TIME TO START</string>
     <string name="string2">LUNCH TIME</string>

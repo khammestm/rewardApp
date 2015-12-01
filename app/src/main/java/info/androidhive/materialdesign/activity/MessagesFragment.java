@@ -10,9 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,15 +30,18 @@ import info.androidhive.materialdesign.R;
 public class MessagesFragment extends Fragment implements View.OnClickListener{
 
 
-    String[] StringDiet = {"No food", "Breakfast", "Banana diet", "Meat diet"};
+    //String[] StringDiet = {"No food", "Breakfast", "Banana diet", "Meat diet"};
 
     private Long mRowId;
     private EditText meditName;
     private EditText meditAge;
     private EditText meditWeight;
     private EditText meditHight;
-    private EditText mDiete;
-    private Spinner mCategory;
+    private TextView mDiete;
+    private TextView mLook;
+    private Spinner mDieteSpinner;
+    private Spinner mLookSpinner;
+    private ImageView imgLook;
 
     private Cursor cursor;
     private DataBase mDbHelper;
@@ -62,12 +69,55 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
         meditAge = (EditText) rootView.findViewById(R.id.Age);
         meditWeight = (EditText) rootView.findViewById(R.id.Weight);
         meditHight = (EditText) rootView.findViewById(R.id.Height);
-        mDiete = (EditText) rootView.findViewById(R.id.Diete);
+        mDiete = (TextView) rootView.findViewById(R.id.Diete);
+        mLook = (TextView)rootView.findViewById(R.id.WantToBeLike);
+
+        mDieteSpinner = (Spinner) rootView.findViewById(R.id.spinnerDiete);
+        mDieteSpinner.setVisibility(View.GONE);
+        mLookSpinner = (Spinner) rootView.findViewById(R.id.spinnerLook);
+        mLookSpinner.setVisibility(View.GONE);
+
+        ImageView imgLook= (ImageView) rootView.findViewById(R.id.imageLook);
+
+/*************************************************************************************************************************/
+        ArrayAdapter<String> StringDiet = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, new
+                String[]{"No food", "Breakfast", "Banana diet", "Meat diet"});
+        mDieteSpinner.setAdapter(StringDiet);
+        mDieteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Log.d("item selected", "item selected");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+/*************************************************************************************************************************/
+        ArrayAdapter<String> StringLook = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, new
+                String[]{"Ben", "Tom"});
+        mLookSpinner.setAdapter(StringLook);
+        mLookSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Log.d("item selected", "item selected");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+/*************************************************************************************************************************/
+
 
         meditName.getText().clear();
         mDbHelper = new DataBase(getActivity());
 
-        //mDbHelper.createNewTodo("33","33","33","33","33");
+        //mDbHelper.createNewTodo("33","33","33","33","33","33");
         //mDbHelper.createNewTodo("mTitleText","mBodyText","meditWeight");
 
         mDb = mDbHelper.getWritableDatabase();
@@ -79,7 +129,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Button EDIT Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Button SAVE Clicked", Toast.LENGTH_SHORT).show();
                 SaveTextData();
             }
         });
@@ -87,13 +137,27 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Button SAVE Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Button EDIT Clicked", Toast.LENGTH_SHORT).show();
                 EditTextData();
                 saveState();
                 Log.d("push data", meditName.getText().toString());
                 Log.d("push data", meditAge.getText().toString());
+                String mPhoto = mLook.getText().toString();
             }
         });
+
+        String mPhotot = mLook.getText().toString();
+        switch (mPhotot) {
+            case "Tom":
+                imgLook.setImageResource(R.drawable.tom);
+                break;
+            case "Ben":
+                imgLook.setImageResource(R.drawable.ben);
+                break;
+            default:
+                imgLook.setImageResource(R.drawable.white);
+                break;
+        }
 
         return rootView;
     }
@@ -133,10 +197,22 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
 
         mDiete.setFocusable(false);
         mDiete.setClickable(false);
+
+        mDieteSpinner.setVisibility(View.GONE);
+        mLookSpinner.setVisibility(View.GONE);
+
+        mDiete.setVisibility(View.VISIBLE);
+        mLook.setVisibility(View.VISIBLE);
+
+        mDiete.setText(mDieteSpinner.getSelectedItem().toString());
+        mLook.setText(mLookSpinner.getSelectedItem().toString());
     }
 
     private void EditTextData()
     {
+        mDieteSpinner.setVisibility(View.VISIBLE);
+        mLookSpinner.setVisibility(View.VISIBLE);
+
         meditName.setFocusable(true);
         meditName.setClickable(true);
         meditName.setEnabled(true);
@@ -161,11 +237,13 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
         meditHight.setFocusableInTouchMode(true);
         meditHight.setInputType(InputType.TYPE_CLASS_TEXT);
 
-        mDiete.setFocusable(true);
-        mDiete.setClickable(true);
-        mDiete.setEnabled(true);
-        mDiete.setFocusableInTouchMode(true);
-        mDiete.setInputType(InputType.TYPE_CLASS_TEXT);
+        mDiete.setVisibility(View.GONE);
+        mLook.setVisibility(View.GONE);
+        //mDiete.setFocusable(true);
+        //mDiete.setClickable(true);
+        //mDiete.setEnabled(true);
+        //mDiete.setFocusableInTouchMode(true);
+        //mDiete.setInputType(InputType.TYPE_CLASS_TEXT);
     }
 
 
@@ -176,6 +254,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
         List<String> weight = new ArrayList<String>();
         List<String> heiht = new ArrayList<String>();
         List<String> diete = new ArrayList<String>();
+        List<String> look = new ArrayList<String>();
         cursor = mDbHelper.getAllTodos();
         if (cursor.moveToFirst())
         {
@@ -190,6 +269,8 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
                 meditHight.setText(heiht.toString().replace("[", "").replace("]", "").replace(",", ""));
                 diete.add(cursor.getString(5));
                 mDiete.setText(diete.toString().replace("[", "").replace("]", "").replace(",", ""));
+                look.add(cursor.getString(6));
+                mLook.setText(look.toString().replace("[", "").replace("]", "").replace(",", ""));
             }
             while (cursor.moveToNext());
         }
@@ -206,8 +287,9 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
         String age = meditAge.getText().toString();
         String weight = meditWeight.getText().toString();
         String heiht = meditHight.getText().toString();
-        String diete = mDiete.getText().toString();
-        mDbHelper.updateTodo(1, name, age, weight, heiht, diete);
+        String diete = mDieteSpinner.getSelectedItem().toString();
+        String look = mLookSpinner.getSelectedItem().toString();
+        mDbHelper.updateTodo(1, name, age, weight, heiht, diete, look);
     }
 
 
