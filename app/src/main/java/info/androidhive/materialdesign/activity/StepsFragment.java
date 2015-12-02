@@ -5,6 +5,8 @@
 package info.androidhive.materialdesign.activity;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
@@ -21,6 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -59,6 +62,8 @@ public class StepsFragment extends Fragment {
     private DataBase mDbHelper;
     private SQLiteDatabase mDb;
     private String mData;
+    private AlarmManager mAlarmManager;
+    private Context mContext;
 
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
@@ -76,6 +81,7 @@ public class StepsFragment extends Fragment {
         // Setup Bluetooth device
         mDeviceName = DEVICE_NAME;
         mDeviceAddress = DEVICE_MAC;
+        mContext = getActivity().getApplicationContext();
 
         // Use this check to determine whether BLE is supported on the device.  Then you can
         // selectively disable BLE-related features.
@@ -146,10 +152,11 @@ public class StepsFragment extends Fragment {
         writeDbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mData != null) {
-                    writeDataToDB(mData);
-                    Toast.makeText(getActivity(), "Write to Database.", Toast.LENGTH_SHORT).show();
-                }
+//                if (mData != null) {
+//                    writeDataToDB(mData);
+//                    Toast.makeText(getActivity(), "Write to Database.", Toast.LENGTH_SHORT).show();
+//                }
+                setupAlarm(mContext);
             }
         });
 
@@ -360,5 +367,19 @@ public class StepsFragment extends Fragment {
         mDbHelper.close();
     }
 
+    private void setupAlarm(Context context){
+        Log.d("ReminderManager", "setReminder");
+        Intent i = new Intent(context, DeviceBootReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i,
+                PendingIntent.FLAG_ONE_SHOT);
+        mAlarmManager = (AlarmManager)
+                context.getSystemService(Context.ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 14);
+        calendar.set(Calendar.MINUTE, 30);
+        mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
+                1000*1, pi);
+    }
 
 }
