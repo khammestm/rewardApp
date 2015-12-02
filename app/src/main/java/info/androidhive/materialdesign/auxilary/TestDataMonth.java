@@ -18,9 +18,6 @@ import info.androidhive.materialdesign.activity.DataBase;
  * Created by rshir on 30.11.2015.
  */
 public class TestDataMonth {
-    private Cursor cursor;
-    private DataBase mDbHelper;
-    private SQLiteDatabase mDb;
 
     public ArrayList<String[]> createTestData() {
         ArrayList<String[]> testData = new ArrayList<String[]>();

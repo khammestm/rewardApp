@@ -198,6 +198,26 @@ public class DataBase extends SQLiteOpenHelper {
     }
 
     /**
+     * Create new Data record
+     * Row number is equal rowId, else -1
+     */
+    public long createNewDataRecord(String time, String steps, String distance, String calories)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues initialValues = new ContentValues();
+
+        initialValues.put(COLUMN_DATE, time);
+        initialValues.put(COLUMN_STEPS, steps);
+        initialValues.put(COLUMN_DISTANCE, distance);
+        initialValues.put(COLUMN_CALORIES, calories);
+
+        long row = db.insert(DATA_TABLE, null, initialValues);
+        db.close();
+
+        return row;
+    }
+
+    /**
      * Update user data records
      */
     public boolean updateDataRecord(long rowId, String steps, String distance, String calories) {
@@ -251,7 +271,7 @@ public class DataBase extends SQLiteOpenHelper {
                         COLUMN_DISTANCE, COLUMN_CALORIES}, null, null,
                 null, null, null, null);
         if (mCursor != null) {
-            mCursor.moveToPosition(mCursor.getCount() - n);
+            mCursor.moveToPosition(mCursor.getCount() - (n + 1));
         }
         return mCursor;
     }
