@@ -1,5 +1,4 @@
-package info.androidhive.materialdesign.activity;
-
+package info.androidhive.materialdesign.background;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,19 +13,21 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import info.androidhive.materialdesign.activity.DataBase;
 import info.androidhive.materialdesign.device.BluetoothLeService;
 
 /**
- * Created by rshir on 24.11.2015.
+ * Created by rshir on 02.12.2015.
  */
-public class DeviceBootReceiver extends BroadcastReceiver {
-    private static final String TAG = "DeviceBootReceiver: ";
+public class DeviceService extends WakeReminderIntentService {
+    private static final String TAG = "DeviceService: ";
 
     private static final long REPEAT_TIME = 1000*30;
     private AlarmManager alarmMgr;
@@ -42,51 +43,49 @@ public class DeviceBootReceiver extends BroadcastReceiver {
     private DataBase mDbHelper;
     private SQLiteDatabase mDb;
 
-
     public static final String DEVICE_MAC = "88:0F:10:95:88:12";
     public static final String DEVICE_NAME = "MI";
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        mContext = context;
+
+    public DeviceService(){
+        super("DeviceService");
         mDeviceName = DEVICE_NAME;
         mDeviceAddress = DEVICE_MAC;
+    }
 
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-            // Set the alarm here.
-            alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            Intent receiverIntent = new Intent(context, DeviceBootReceiver.class);
-            alarmIntent = PendingIntent.getBroadcast(context, 0, receiverIntent, 0);
-
-            // Set the alarm to start at 8:30 a.m.
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 14);
-            calendar.set(Calendar.MINUTE, 30);
-
-            // setRepeating() lets you specify a precise custom interval--in this case,
-            // 20 minutes.
-            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    1000 * 60 * 2, alarmIntent);
-
-            boolean alarmUp = (PendingIntent.getBroadcast(context, 0,
-                    new Intent(context, StepsFragment.class),
-                    PendingIntent.FLAG_NO_CREATE) != null);
-
-            if (alarmUp) {
-                Log.d("DebugAlarmManager", "Alarm is already active");
-            }
-        }
+    @Override
+    public int onStartCommand(Intent intent,int flags, int startId){
+        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+        Log.d("Alarm", "I am running");
 
         // Start intent service for device connection and data receiving
-        Intent gattServiceIntent = new Intent(context, BluetoothLeService.class);
-        context.bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        this.bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
-        mContext.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-        if (mBluetoothLeService != null) {
-            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
-            Log.d(TAG, "Connect request result=" + result);
-        }
+        this.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+        reconnect();
+//           if (mBluetoothLeService != null) {
+//            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
+//            Log.d(TAG, "Connect request result=" + result);
+//        }
+       return START_STICKY;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        // We don't provide binding, so return null
+        return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    void doReminderWork(Intent intent){
+
+        // Status bar notification Code goes here.
     }
 
     // Code to manage Service lifecycle.
@@ -97,7 +96,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
             if (!mBluetoothLeService.initialize()) {
                 Log.e(TAG, "Unable to initialize Bluetooth");
-                //finish();
+                //context.stopService(gattServiceIntent);
             }
             // Automatically connects to the device upon successful start-up initialization.
             mBluetoothLeService.connect(mDeviceAddress);
@@ -126,6 +125,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 mData = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
                 writeDataToDB(mData);
+                mBluetoothLeService.close();
             }
         }
     };
@@ -140,6 +140,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
     }
 
     private void writeDataToDB(String data){
+        mDbHelper = new DataBase(this);
         mDb = mDbHelper.getWritableDatabase();
         Cursor cursor = mDbHelper.getLastDataRecord();
         // Check if cursor is empty
@@ -209,4 +210,5 @@ public class DeviceBootReceiver extends BroadcastReceiver {
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
+
 }

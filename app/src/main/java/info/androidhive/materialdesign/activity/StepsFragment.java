@@ -23,9 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +33,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 
 import info.androidhive.materialdesign.R;
+import info.androidhive.materialdesign.background.DeviceDataReceiver;
 import info.androidhive.materialdesign.device.BluetoothLeService;
 import info.androidhive.materialdesign.device.GattAttributes;
 
@@ -64,6 +62,7 @@ public class StepsFragment extends Fragment {
     private String mData;
     private AlarmManager mAlarmManager;
     private Context mContext;
+    private PendingIntent pendingIntent;
 
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
@@ -112,6 +111,9 @@ public class StepsFragment extends Fragment {
             writeDataToDB(mData);
         }
 
+        Intent alarmIntent = new Intent(getActivity(), DeviceDataReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, 0);
+
     }
 
     @Override
@@ -152,11 +154,7 @@ public class StepsFragment extends Fragment {
         writeDbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (mData != null) {
-//                    writeDataToDB(mData);
-//                    Toast.makeText(getActivity(), "Write to Database.", Toast.LENGTH_SHORT).show();
-//                }
-                setupAlarm(mContext);
+                startDataService();
             }
         });
 
@@ -165,14 +163,6 @@ public class StepsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Read to Database", Toast.LENGTH_SHORT).show();
-//                Cursor cursor = mDbHelper.getAllTodos();
-//                if (cursor.moveToFirst()){
-//                    do{
-//                        String data = cursor.getString(cursor.getColumnIndex("name"));
-//                        dataBaseField.setText(data);
-//                    } while(cursor.moveToNext());
-//                }
-//                cursor.close();
                 Cursor cursor = mDbHelper.getLastDataRecord();
                 String id = cursor.getString(cursor.getColumnIndex("_id"));
                 String date = cursor.getString(cursor.getColumnIndex("date"));
@@ -267,6 +257,7 @@ public class StepsFragment extends Fragment {
                 mData = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
                 displayData(mData);
                 writeDataToDB(mData);
+                mBluetoothLeService.close();
             }
         }
     };
@@ -346,7 +337,7 @@ public class StepsFragment extends Fragment {
         cursor = mDbHelper.getLastDataRecord();
         String dateDB = cursor.getString(cursor.getColumnIndex("date"));
         long id = cursor.getLong(cursor.getColumnIndex("_id"));
-        Log.d(TAG, "Data record "+dateDB);
+        Log.d(TAG, "Data record " + dateDB);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
@@ -367,19 +358,12 @@ public class StepsFragment extends Fragment {
         mDbHelper.close();
     }
 
-    private void setupAlarm(Context context){
-        Log.d("ReminderManager", "setReminder");
-        Intent i = new Intent(context, DeviceBootReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i,
-                PendingIntent.FLAG_ONE_SHOT);
-        mAlarmManager = (AlarmManager)
-                context.getSystemService(Context.ALARM_SERVICE);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-        calendar.set(Calendar.MINUTE, 30);
-        mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
-                1000*1, pi);
+
+    public void startDataService() {
+        AlarmManager manager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        int interval = 1000*30;
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+        Toast.makeText(getActivity(), "Alarm Set", Toast.LENGTH_SHORT).show();
     }
 
 }

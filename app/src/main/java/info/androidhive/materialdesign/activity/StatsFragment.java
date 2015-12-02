@@ -51,7 +51,6 @@ public class StatsFragment extends Fragment {
         while(mCursor.moveToNext()){
             String distance = mCursor.getString(mCursor.getColumnIndex("distance"));
             String day_month = mCursor.getString(mCursor.getColumnIndex("date")).substring(5,10);
-            Log.d("Stats","Distance:"+distance);
             try {
                 dataPoints[i] = new DataPoint(i, Integer.parseInt(distance));
             } catch (NullPointerException e) {
@@ -96,19 +95,20 @@ public class StatsFragment extends Fragment {
         mDbHelper = new DataBase(getActivity());
         mDb = mDbHelper.getWritableDatabase();
         Cursor cursor = mDbHelper.getLastDataRecord();
-        String rowId = cursor.getString(cursor.getColumnIndex("_id"));
-        Log.d("Stats", ""+rowId);
-        if (Integer.parseInt(rowId) < 29) {
+        if ((cursor == null) || (cursor.getCount() < 29)) {
+            //String rowId = cursor.getString(cursor.getColumnIndex("_id"));
+            //Log.d("Stats", "" + rowId);
             TestDataMonth testData = new TestDataMonth();
-            ArrayList<String[]> testDataArray = testData.createTestData();
-            for(String[] testDay : testDataArray){
-                String date = testDay[0];
-                String steps = testDay[1];
-                String distance = testDay[2];
-                String calories = testDay[3];
-                mDbHelper.createNewDataRecord(date,steps,distance, calories);
-            }
+                ArrayList<String[]> testDataArray = testData.createTestData();
+                for (String[] testDay : testDataArray) {
+                    String date = testDay[0];
+                    String steps = testDay[1];
+                    String distance = testDay[2];
+                    String calories = testDay[3];
+                    mDbHelper.createNewDataRecord(date, steps, distance, calories);
+                }
         }
         mDbHelper.close();
     }
+
 }
