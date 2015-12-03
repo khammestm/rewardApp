@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,6 +47,8 @@ public class HomeFragment extends Fragment {
         TextView txtCurrentDate= (TextView)rootView.findViewById(R.id.Data);
         TextView txtCurrentTime= (TextView)rootView.findViewById(R.id.Time);
         TextView recommendation= (TextView)rootView.findViewById(R.id.MOVE);
+        TextView earliest_goal = (TextView)rootView.findViewById(R.id.earliest_goal);
+        earliest_goal.setText("You don't have a goal yet.");
         final TextView deviceData= (TextView)rootView.findViewById(R.id.data_home);
         Button updateData = (Button) rootView.findViewById(R.id.read_result);
 
@@ -72,7 +76,9 @@ public class HomeFragment extends Fragment {
         }
 
         deviceData.setText(showLastDataRecord());
-
+        if(!showEarliestGoal().equals("")){
+            earliest_goal.setText(showEarliestGoal());
+        }
         updateData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +112,26 @@ public class HomeFragment extends Fragment {
                     "Steps:"+steps+"\n" +
                     "Distance: "+distance+"\n" +
                     "Calories: "+calories;
+        }
+
+        mDbHelper.close();
+        return result;
+    }
+
+    private String showEarliestGoal(){
+        mDbHelper = new DataBase(getActivity());
+        Cursor cursor = mDbHelper.getEarliestGoalRecord();
+        //Cursor cursor = mDbHelper.getAllGoals();
+        String result = "";
+        if ((cursor != null) && (cursor.getCount() > 0)){
+            cursor.moveToFirst();
+            String date = cursor.getString(cursor.getColumnIndex("date"));
+            String steps = cursor.getString(cursor.getColumnIndex("distance"));
+            Date date_obj = new Date(Long.parseLong(date));
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            result = "Date:"+format.format(date_obj) +
+                    " Steps:"+steps;
+            Log.d("Home", "RESULT: " + result);
         }
 
         mDbHelper.close();

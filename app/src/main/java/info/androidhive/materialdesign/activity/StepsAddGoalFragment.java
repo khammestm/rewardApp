@@ -1,6 +1,7 @@
 package info.androidhive.materialdesign.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,10 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.sql.Time;
 import java.util.Calendar;
 
 import info.androidhive.materialdesign.R;
@@ -33,13 +38,13 @@ public class StepsAddGoalFragment extends Fragment implements View.OnClickListen
         super.onCreate(savedInstanceState);
     }
 
-    public static long getDateFromDatePicket(DatePicker datePicker){
+    public static long getDateFromDatePickers(DatePicker datePicker, TimePicker timePicker){
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
         int year =  datePicker.getYear();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, 0, 0);
+        calendar.set(year, month, day, timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
         return calendar.getTimeInMillis();
     }
@@ -50,6 +55,7 @@ public class StepsAddGoalFragment extends Fragment implements View.OnClickListen
         View rootView = inflater.inflate(R.layout.fragment_step_goals_add, container, false);
         Button goal_add_button = (Button) rootView.findViewById(R.id.goal_add_button);
         final DatePicker picker = (DatePicker) rootView.findViewById(R.id.dpResult);
+        final TimePicker tpicker = (TimePicker) rootView.findViewById(R.id.tpResult);
         final EditText goal_distance = (EditText) rootView.findViewById(R.id.goal_distance);
         //final Button goal_add_button = (Button) rootView.findViewById(R.id.goal_add_button);
 
@@ -60,13 +66,17 @@ public class StepsAddGoalFragment extends Fragment implements View.OnClickListen
             public void onClick(View view) {
                 try {
                     String message = "Entered distance: " + Integer.parseInt(goal_distance.getText().toString()) + ".";
-                    message += "Entered date: " + getDateFromDatePicket(picker);
-                    mDbHelper.insertGoal(getDateFromDatePicket(picker), goal_distance.getText().toString());
-                    //Log.d("Goal", "" + mDbHelper.getAllGoals().getCount());
+                    message += "Entered date: " + getDateFromDatePickers(picker, tpicker);
+                    mDbHelper.insertGoal(getDateFromDatePickers(picker,tpicker), goal_distance.getText().toString());
+                    Log.d("Goal", "Added : " + message);
+                    Log.d("Goal", "Current number of goals" + mDbHelper.getAllGoals().getCount());
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.container_body, new StepsFragment());
+                    fragmentTransaction.replace(R.id.container_body, new HomeFragment());
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
                     fragmentTransaction.commit();
+
 
                 }catch (NumberFormatException exp){
                     Toast.makeText(getActivity(), "Don't forget to enter distance in number and a date!", Toast.LENGTH_SHORT).show();

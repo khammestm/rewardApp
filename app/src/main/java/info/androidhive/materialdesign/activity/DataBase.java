@@ -86,6 +86,7 @@ public class DataBase extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(DATABASE_CREATE);
         db.execSQL(TABLE_DATA_CREATE);
+        db.execSQL(GOAL_TABLE_CREATE);
 
     }
 
@@ -349,5 +350,16 @@ public class DataBase extends SQLiteOpenHelper {
                 null, null, null, null);
     }
 
+    /**
+     * Return cursor with requested record for user information
+     * @return Cursor with requested record for user data
+     * @throws SQLException
+     */
+    public Cursor getEarliestGoalRecord() throws SQLException {
+        String query_to_fetch_earliest="select *  from "+GOAL_TABLE+" order  by " + GOAL_DATE + " ASC ";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query_to_fetch_earliest, null);
+        return cursor;
+    }
 
 }
