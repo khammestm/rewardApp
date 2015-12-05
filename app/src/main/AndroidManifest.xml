@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -20,10 +22,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.RingAlarm"
+            />
+        <activity
+            android:name=".activity.RingAlarm2"
+            />
+        <activity
+            android:name=".activity.RingAlarm3"
+            />
 
         <service android:name=".device.BluetoothLeService" android:enabled="true"/>
         <service android:name=".background.DeviceService" android:enabled="true"/>
         <receiver android:name=".background.DeviceDataReceiver" />
+
 
     </application>
 

@@ -6,43 +6,39 @@
     tools:context="info.androidhive.materialdesign.activity.HomeFragment">
 
 
+    <ImageView
+        android:id="@+id/image_1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:layout_gravity="top"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/keepworking_photo" />
 
     <TextView
         android:id="@+id/label"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="290dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="45dp"
-        android:text="ABOUT"
+        android:textSize="40dp"
+        android:text="KEEP WORKING TO COMPLETE YOUR TASK!"
         android:textStyle="bold"/>
 
-    <TextView
-        android:layout_below="@id/label"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:id="@+id/textViewName" />
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="I'm ready baby"
+        android:text="I'm ready yo!"
         android:id="@+id/button"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:id="@+id/remaininghours"
-        android:layout_below="@+id/button"
-        android:layout_alignStart="@+id/button" />
 
 
 </RelativeLayout>

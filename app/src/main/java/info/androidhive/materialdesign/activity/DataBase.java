@@ -15,6 +15,7 @@ import java.util.Locale;
 
 public class DataBase extends SQLiteOpenHelper {
 
+
     private static SQLiteDatabase mDb;
 
     private static final String TAG = "Database";
@@ -80,6 +81,9 @@ public class DataBase extends SQLiteOpenHelper {
     public DataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -306,7 +310,7 @@ public class DataBase extends SQLiteOpenHelper {
      * Date and time formatting function
      * @return - formatted date and time in String value
      */
-    private String getDateTime() {
+    public String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();
@@ -362,4 +366,33 @@ public class DataBase extends SQLiteOpenHelper {
         return cursor;
     }
 
+   /* public void deleteEarliestGoalRecord() throws SQLException {
+        String query_to_fetch_earliest="select *  from "+GOAL_TABLE+" order  by " + GOAL_DATE + " ASC ";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query_to_fetch_earliest, null);
+        db.delete(cursor);*/
+
+    public void deleteFirstRow()
+   {
+
+       String query_to_fetch_earliest="select *  from "+GOAL_TABLE+" order  by " + GOAL_DATE + " ASC ";
+       SQLiteDatabase db = this.getWritableDatabase();
+       Cursor cursor = db.rawQuery(query_to_fetch_earliest, null);
+
+       if(cursor.moveToFirst()) {
+           String rowId = cursor.getString(cursor.getColumnIndex(KEY_ID));
+
+           db.delete(GOAL_TABLE, KEY_ID + "=?", new String[]{rowId});
+       }
+
+   }
+
 }
+
+
+
+    /*public void deleteDataRecord(long rowId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DATA_TABLE, KEY_ID + "=" + rowId, null);
+        db.close();
+    }*/
