@@ -181,6 +181,40 @@
         android:layout_below="@+id/view2"
         android:layout_alignStart="@+id/earliest_goalDate" />
 
+    <!--Rewards -->
+
+    <TextView
+        android:id="@+id/reward_text"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="24dp"
+        android:layout_below="@+id/imageDish"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dip" />
+
+    <TextView
+        android:id="@+id/reward_to_do"
+        android:layout_width="800dp"
+        android:layout_height="700dp"
+        android:textSize="18dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/imageDish"
+        android:layout_toStartOf="@+id/read_result"
+        android:layout_marginLeft="90dip"
+        android:layout_marginRight="400dip"
+        android:layout_alignEnd="@+id/earliest_goalDate" />
+
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageReward"
+        android:layout_below="@+id/imageDish"
+        android:layout_alignStart="@+id/earliest_goalDate"
+        android:adjustViewBounds = "true"
+        android:layout_centerInParent="true"
+        android:scaleType="fitCenter" />
 
 
 </RelativeLayout>

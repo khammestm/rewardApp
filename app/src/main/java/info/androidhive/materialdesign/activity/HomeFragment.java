@@ -54,18 +54,22 @@ public class HomeFragment extends Fragment {
         final TextView data_home_distance = (TextView)rootView.findViewById(R.id.data_Distance);
         final TextView data_home_calories= (TextView)rootView.findViewById(R.id.data_Calories);
         final TextView data_home_steps= (TextView)rootView.findViewById(R.id.data_Steps);
-        //TextView diete_data = (TextView)rootView.findViewById(R.id.diete_Data);
-        // Button updateData = (Button) rootView.findViewById(R.id.read_result);
-        ImageButton mImageButton = (ImageButton) rootView.findViewById(R.id.imageButton);
-        ImageView imgDish= (ImageView) rootView.findViewById(R.id.imageDish);
         TextView diete_Time = (TextView)rootView.findViewById(R.id.diete_Time);
         TextView earliest_goal_number = (TextView)rootView.findViewById(R.id.earliest_goalNumber);
         TextView earliest_goal_text = (TextView)rootView.findViewById(R.id.earliest_goalDate);
         TextView earliest_goal_left = (TextView)rootView.findViewById(R.id.earliest_goalLeft);
+        TextView reward_text = (TextView)rootView.findViewById(R.id.reward_text);
+        //TextView diete_data = (TextView)rootView.findViewById(R.id.diete_Data);
+        // Button updateData = (Button) rootView.findViewById(R.id.read_result);
+        ImageButton mImageButton = (ImageButton) rootView.findViewById(R.id.imageButton);
+        ImageView imgDish= (ImageView) rootView.findViewById(R.id.imageDish);
+        ImageView imgReward= (ImageView) rootView.findViewById(R.id.imageReward);
 
 //Setting the initial data
         earliest_goal.setText("You don't have a goal yet.");
         //final TextView deviceData= (TextView)rootView.findViewById(R.id.data_home);
+        imgReward.setImageResource(R.drawable.nothing);
+        reward_text.setText(R.string.Reward0);
 
 //Time and Date
         Date d = new Date();
@@ -127,25 +131,25 @@ public class HomeFragment extends Fragment {
             case (109):
                 diete_Time.setText("It's time to eat!");
                 recommendation.setText(R.string.StringNoDiet1);
-                imgDish.setImageResource(image_normal_break[index-1]);
+                imgDish.setImageResource(image_normal_break[index]);
                 break;
             case (208):
             case (209):
                 diete_Time.setText("It's time to eat!");
                 recommendation.setText(R.string.StringFatDiet1);
-                imgDish.setImageResource(image_fat_break[index-1]);;
+                imgDish.setImageResource(image_fat_break[index]);;
                 break;
             case (308):
             case (309):
                 diete_Time.setText("It's time to eat!");
                 recommendation.setText(R.string.StringFastDiet1);
-                imgDish.setImageResource(image_fast_break[index-1]);
+                imgDish.setImageResource(image_fast_break[index]);
                 break;
             case (408):
             case (409):
                 diete_Time.setText("It's time to eat!");
                 recommendation.setText(R.string.StringGreipDiet1);
-                imgDish.setImageResource(image_greip_break[index-1]);
+                imgDish.setImageResource(image_greip_break[index]);
                 break;
 
             //Break time
@@ -153,14 +157,14 @@ public class HomeFragment extends Fragment {
             case (210):
             case (310):
             case (410):
-                recommendation.setText(R.string.string1);
+                recommendation.setText(R.string.string3);
                 imgDish.setImageResource(R.drawable.tom);
                 break;
             case (111):
             case (211):
             case (311):
             case (411):
-                recommendation.setText(R.string.string1);
+                recommendation.setText(R.string.string3);
                 imgDish.setImageResource(R.drawable.tom);
                 break;
 
@@ -195,29 +199,29 @@ public class HomeFragment extends Fragment {
             case (115):
             case (116):
             case (117):
-                recommendation.setText(R.string.string2);
-                imgDish.setImageResource(R.drawable.break1);
+                recommendation.setText(R.string.string3);
+                imgDish.setImageResource(R.drawable.tom);
                 break;
             case (214):
             case (215):
             case (216):
             case (217):
                 recommendation.setText(R.string.string3);
-                imgDish.setImageResource(R.drawable.break1);
+                imgDish.setImageResource(R.drawable.tom);
                 break;
             case (314):
             case (315):
             case (316):
             case (317):
-                recommendation.setText(R.string.string2);
-                imgDish.setImageResource(R.drawable.break1);
+                recommendation.setText(R.string.string3);
+                imgDish.setImageResource(R.drawable.tom);
                 break;
             case (414):
             case (415):
             case (416):
             case (417):
                 recommendation.setText(R.string.string3);
-                imgDish.setImageResource(R.drawable.break1);
+                imgDish.setImageResource(R.drawable.tom);
                 break;
 
             //Dinner time
@@ -225,25 +229,25 @@ public class HomeFragment extends Fragment {
             case (119):
                 diete_Time.setText("It's time to eat!");
                 recommendation.setText(R.string.StringNoDiet3);
-                imgDish.setImageResource(image_normal_dinner[index - 1]);
+                imgDish.setImageResource(image_normal_dinner[index]);
                 break;
             case (218):
             case (219):
                 diete_Time.setText("It's time to eat!");
                 recommendation.setText(R.string.StringFatDiet3);
-                imgDish.setImageResource(image_fat_dinner[index-1]);
+                imgDish.setImageResource(image_fat_dinner[index]);
                 break;
             case (318):
             case (319):
                 diete_Time.setText("It's time to eat!");
                 recommendation.setText(R.string.StringFastDiet3);
-                imgDish.setImageResource(image_fast_dinner[index-1]);
+                imgDish.setImageResource(image_fast_dinner[index]);
                 break;
             case (418):
             case (419):
                 diete_Time.setText("It's time to eat!");
                 recommendation.setText(R.string.StringGreipDiet3);
-                imgDish.setImageResource(image_greip_dinner[index-1]);
+                imgDish.setImageResource(image_greip_dinner[index]);
                 break;
 
             //AfterDinner time
@@ -288,14 +292,16 @@ public class HomeFragment extends Fragment {
         }
 
         //recommendation.setText(String.valueOf(image_fast_dinnerId) );
+
+
         //Show last recorded data
         String data_today = showLastDataRecord();
         data_home_distance.setText(data_today);
         String data_today_distance = data_today.substring(data_today.lastIndexOf("Distance: "), (data_today.indexOf("Calories: ")-1));
         data_home_distance.setText(data_today_distance);
-        String data_today_calories = data_today.substring(data_today.lastIndexOf("Calories: "),data_today.length());
+        String data_today_calories = data_today.substring(data_today.lastIndexOf("Calories: "), data_today.length());
         data_home_calories.setText(data_today_calories);
-        String data_today_steps = data_today.substring(0,data_today.lastIndexOf("Distance: "));
+        String data_today_steps = data_today.substring(0, data_today.lastIndexOf("Distance: "));
         data_home_steps.setText(data_today_steps);
 
         if(!showEarliestGoal().equals("")){
@@ -303,7 +309,7 @@ public class HomeFragment extends Fragment {
             String earliest_goal_data = showEarliestGoal();
             String earliest_goal_data_day0 = earliest_goal_data.substring(earliest_goal_data.lastIndexOf("Date:") + 5, earliest_goal_data.lastIndexOf(" Steps:") - 3);
             String earliest_goal_data_day = "Till " +  earliest_goal_data_day0;
-            String earliest_goal_data_steps = earliest_goal_data.substring(earliest_goal_data.lastIndexOf(" Steps:")+7,earliest_goal_data.length());
+            String earliest_goal_data_steps = earliest_goal_data.substring(earliest_goal_data.lastIndexOf(" Steps:") + 7, earliest_goal_data.length());
 
             int days_left = Integer.parseInt(earliest_goal_data_day0.substring(0,2))-day;
             int hours_left = abs(Integer.parseInt(earliest_goal_data_day0.substring(11, 12)) - hour);
@@ -312,12 +318,38 @@ public class HomeFragment extends Fragment {
             earliest_goal_number.setText(earliest_goal_data_steps);
             earliest_goal_text.setText(earliest_goal_data_day);
 
+            // Reward
+            if (days_left == 0)
+            {
+                String count_today_steps = data_today_steps.substring(6, data_today.lastIndexOf("Distance: ")-1);
+                int count_steps = Integer.valueOf(count_today_steps);
+                int done_steps = Integer.valueOf(earliest_goal_data_steps.toString());
+                if ( - count_steps + done_steps > 10)
+                {
+                    imgReward.setImageResource(R.drawable.chock);
+                    reward_text.setText(R.string.Reward1);
+                }
+                else if ( - count_steps + done_steps > 100)
+                {
+                    imgReward.setImageResource(R.drawable.beer);
+                    reward_text.setText("Reward2");
+                }
+                else if ( - count_steps + done_steps > 500)
+                {
+                    imgReward.setImageResource(R.drawable.cake);
+                    reward_text.setText("Reward3");
+                }
+            }
+            //String count_today_steps = data_today_steps.substring(6, data_today.lastIndexOf("Distance: "));
+            //reward_text.setText(count_today_steps);
         }
         else
         {
             earliest_goal_left.setText("");
             earliest_goal_number.setText("????");
             earliest_goal_text.setText("You didn't set your goal yet");
+            imgReward.setImageResource(R.drawable.nothing);
+            reward_text.setText(R.string.Reward1);
         }
 
         mImageButton.setOnClickListener(new View.OnClickListener() {
@@ -325,16 +357,21 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 String data_today = showLastDataRecord();
                 data_home_distance.setText(data_today);
-                String data_today_distance = data_today.substring(data_today.lastIndexOf("Distance: "), data_today.indexOf("Calories: ")-1);
+                String data_today_distance = data_today.substring(data_today.lastIndexOf("Distance: "), data_today.indexOf("Calories: ") - 1);
                 data_home_distance.setText(data_today_distance);
 
-                String data_today_calories = data_today.substring(data_today.lastIndexOf("Calories: "),data_today.length());
+                String data_today_calories = data_today.substring(data_today.lastIndexOf("Calories: "), data_today.length());
                 data_home_calories.setText(data_today_calories);
 
                 String data_today_steps = data_today.substring(0, data_today.lastIndexOf("Distance: "));
                 data_home_steps.setText(data_today_steps);
             }
         });
+
+
+        //recommendation.setText(String.valueOf(index));
+
+
 
         return rootView;
     }

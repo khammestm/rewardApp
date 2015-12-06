@@ -98,4 +98,10 @@
         Before you head for the citrus aisle, you need to get the facts, especially about the diet’s fat-burning claim.
     </string>
 
+
+    <!-- Rewards-->
+        <string name="Reward0">You didnt have any plans for today, sorry man! </string>
+        <string name="Reward2">Beer for better digestion, you desirved it! </string>
+        <string name="Reward1">Eating chocolate is good for you today! Chocolate makes you live longer, Chocolate is good for stress. Come on, guy, do it!</string>
+        <string name="Reward3">Good news for the kid in you: if you want to have your cake today - you can do it! </string>
 </resources>
