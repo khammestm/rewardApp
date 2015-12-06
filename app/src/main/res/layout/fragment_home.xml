@@ -5,67 +5,182 @@
     android:orientation="vertical"
     tools:context="info.androidhive.materialdesign.activity.HomeFragment">
 
+    <!--Recomendations -->
+
+
+    <!--Today data -->
 
     <TextView
-        android:id="@+id/Data"
+        android:id="@+id/data_Distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:gravity="center_horizontal"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="45dp"
-        android:textStyle="bold"/>
-
-
-
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="56dp"
+        android:layout_marginLeft="60dip"/>
 
     <TextView
-        android:id="@+id/Time"
-        android:layout_width="fill_parent"
+        android:id="@+id/data_Calories"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="24dp"
         android:gravity="center_horizontal"
-        android:textSize="45dp"
-        android:textStyle="bold"
-        android:layout_below="@+id/Data"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/data_Distance"
+        android:layout_alignEnd="@+id/data_Distance"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="60dip"/>
+
+    <TextView
+        android:id="@+id/data_Steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/data_Calories"
+        android:layout_alignEnd="@+id/data_Calories"
+        android:layout_marginLeft="60dip"/>
+
+
+
+    <ImageButton
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/imageButton"
+        android:text="Update"
+        android:layout_alignBottom="@+id/data_Steps"
+        android:layout_alignEnd="@+id/earliest_goalDate"
+        android:layout_marginRight="120dip"
+        android:src="@drawable/runman"
+        android:adjustViewBounds = "true"
+        android:layout_centerInParent="true"
+        android:scaleType="fitCenter"/>
+
+    <TextView
+        android:id="@+id/update"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:text = "Update"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/imageButton"
+        android:layout_alignEnd="@+id/imageButton"/>
+    <!--Goal -->
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="fill_parent"
+        android:layout_height="130dp"
+        android:id="@+id/view"
+        android:background="?attr/colorAccent"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:id="@+id/earliest_goal"
-        android:layout_alignParentTop="true"
+    <android.support.v7.widget.Toolbar
         android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/view1"
+        android:background="?attr/colorPrimary"
+        android:layout_above="@+id/view"
+        android:layout_alignParentStart="true" />
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:id="@+id/view2"
+        android:background="?attr/colorPrimary"
+        android:layout_below="@+id/imageButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp" />
+
+    <TextView
+        android:id="@+id/earliest_goalDate"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="25dp"
-        android:textStyle="bold"/>
+        android:layout_above="@+id/earliest_goalSteps"
+        android:layout_alignTop="@+id/view1"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/earliest_goalLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="18dp"
+        android:layout_alignTop="@+id/earliest_goalDate"
+        android:layout_marginTop="40dp"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/earliest_goalText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="24dp"
+        android:text="My next goal:"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/view1"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="60dip" />
+
+    <TextView
+        android:id="@+id/earliest_goalNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="52dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/view1"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="60dip" />
+
+    <TextView
+        android:id="@+id/earliest_goalSteps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:text="Steps"
+        android:layout_below="@+id/earliest_goalNumber"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="60dip"/>
+
+    <!--Diete -->
+    <TextView
+        android:id="@+id/diete_Time"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/view2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dip" />
 
     <TextView
         android:id="@+id/MOVE"
-        android:layout_below="@id/label"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="800dp"
+        android:layout_height="700dp"
         android:textSize="18dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal" />
-
-    <TextView
-        android:id="@+id/data_home"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:layout_marginTop="71dp"
         android:gravity="center_horizontal"
-        android:layout_below="@+id/MOVE"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/diete_Time"
+        android:layout_toStartOf="@+id/read_result"
+        android:layout_marginLeft="90dip"
+        android:layout_marginRight="400dip"
+        android:layout_alignEnd="@+id/earliest_goalDate" />
 
-    <Button
-        android:id="@+id/read_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62dp" />
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:id="@+id/imageDish"
+        android:layout_below="@+id/view2"
+        android:layout_alignStart="@+id/earliest_goalDate" />
+
+
 
 </RelativeLayout>
