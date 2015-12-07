@@ -29,12 +29,14 @@
     <string name="title_statistics">STATISTICS</string>
     <string name="title_about">ABOUT</string>
 
+    <!--Motivation-->
     <string name="string1">GOOD TIME TO START</string>
     <string name="string2">LUNCH TIME</string>
     <string name="string3">DO SOME EXERCISES, COME ON</string>
     <string name="string4">ITS TIME TO SLEEP</string>
-	<string name="string5">CHANGE VARIABLES</string>
+    <string name="string5">CHANGE VARIABLES</string>
 
+    <!--Braclet-->
     <string name="ble_not_supported">Bluetooth_not_supported</string>
     <string name="error_bluetooth_not_supported">Bluetooth_not_supported</string>
 
@@ -47,5 +49,71 @@
 
     <string name="title_steps">Steps result</string>
     <string name="title_scan_device">Scan device</string>
+
+    <!--Diet-->
+    <string name="StringNoDiet1">You want to aim for a breakfast that combines good carbs and fiber with some protein</string>
+    <string name="StringNoDiet2">Enjoy this nutrient-packed salad, with juicy tomatoes and cucumber, as a delicious and healthy lunch</string>
+    <string name="StringNoDiet3">Fatty acids from the walnuts and salmon, as well as monounsaturated fats from the avocado keep this dish heart-healthy.</string>
+
+    <string name="StringFatDiet1">If you have got a sweet tooth when you roll out of bed, head straight for this low-fat strawberry parfait. Breakfast that tastes like dessert? That is our kind of morning!</string>
+    <string name="StringFatDiet2">This meal makes for excellent post-workout fuel (a great mix of whole grains and protein)</string>
+    <string name="StringFatDiet3">Very low in sugar—only 1 gram! This dish serves up about one-fourth your daily requirement of vitamin B6, which is crucial for a healthy immune system. It is super lean, too, with just 1.2 grams of saturated fat.</string>
+
+    <string name="StringFastDiet1">In this improvement on the Egg McMuffin, we have subbed in lean turkey for Canadian bacon, added lycopene-rich tomato, and crowned it all with a spread of heart-healthy guacamole </string>
+    <string name="StringFastDiet2">Skip the greasy burger from your nearest fast-food joint and opt for this at-home version that’s just as tasty.t</string>
+    <string name="StringFastDiet3"> The lean beef provides more than half your protein and nearly 30 percent of your iron for the day, You will feel satisfied, thanks to that protein and 7 grams of fiber, Shiitake and other mushrooms are rich in antioxidants and help reduce cholesterol</string>
+
+    <string name="StringGreipDiet1">Wake up to a delicious blend of banana, strawberries, blueberries and peanut butter. This fruit smoothie recipe is a good source of protein and fiber.</string>
+    <string name="StringGreipDiet2">A satisfying salad is all about a combination of textures: here, crisp greens, juicy citrus, silky salmon, and rich avocado</string>
+    <string name="StringGreipDiet3">Contrast makes a simple salad come alive. Jicama, apple, and cucumber give this texture-rich dish its crunch, while cilantro and red-pepper flakes contribute a different kind of bite</string>
+
+    <string name="AfterDinner1">Good time to relax. But no food!</string>
+    <string name="AfterDinner3">Good big burger is perfect before sleeping</string>
+    <string name="AfterDinner4">Cant stand grapefruits any more? Go to sleep!</string>
+    <string name="AfterDinner0">Come on, sleep</string>
+
+    <string name="AboutNoDiet">It is the hot new weight-loss plan that has got the health world buzzing.
+        Today we unveil the diet that lets you have burgers, curries, treats and alcohol, and still lose weight.
+        Stick to the super-simple colour-coded plan and you will lose a stone in just six weeks. Sound too good to be true?
+        It is not. It is just the simplest diet plan you will ever follow
+    </string>
+    <string name="AboutFat">Eat fat and lose weight. That is the promise of the Flat Belly Diet.
+        Now for the fine print: The kind of fat matters. The plan focuses on monounsaturated fats, which you get from olive oil, nuts, and other plant foods
+        During that time, you can not add salt to any food and you must avoid:
+        - Processed foods
+        - Foods that can make you gassy, like beans, broccoli, and onions
+        - Carbs like pasta, bananas, and bagels.
+    </string>
+    <string name="AboutFast">You will eat three meals and two snacks a day, all purchased from various fast-food
+        and chain restaurants or convenience stores. Fried foods are not part of the plan, so you will have to say
+        goodbye to the fries. Sodas sweetened with high-fructose corn syrup are also off-limits.
+        But you may not miss them. Sinatra offers suggestions for better substitutions for some of your favorites
+        and easy tips for cutting fat and calories while still enjoying a diet mainly from fast-food restaurants.
+        Alcohol is allowed in moderation. You can enjoy an occasional glass of wine or a cocktail and sip it slowly,
+        savoring it, so you don’t want more.
+    </string>
+    <string name="AboutGrap">The grapefruit diet has outlasted most fad diets. People were even trying it back in the 1930s.
+        Its fans claim that grapefruit contains certain enzymes that, when eaten before other foods, help burn off fat.
+        The diet, which has several variations, lasts 10-12 days and claims to help you lose as much as 10 pounds.
+        Before you head for the citrus aisle, you need to get the facts, especially about the diet’s fat-burning claim.
+    </string>
+
+
+    <!-- Rewards-->
+        <string name="Reward0">You didnt have any plans for today, sorry man! </string>
+        <string name="Reward2">Beer for better digestion, you desirved it! </string>
+        <string name="Reward1">Eating chocolate is good for you today! Chocolate makes you live longer, Chocolate is good for stress. Come on, guy, do it!</string>
+        <string name="Reward3">Good news for the kid in you: if you want to have your cake today - you can do it! </string>
+
+
+    <!--Graph(Statistics Fragment)-->
+    <string name="choice_parameter">Choice parameter to show</string>
+    <string name="weekly_graph">Statistics for the last Week</string>
+    <string name="monthly_graph">Statistics for the last Month</string>
+    <string-array name="graph_choice">
+        <item>Distance</item>
+        <item>Steps</item>
+        <item>Calories</item>
+    </string-array>
 
 </resources>

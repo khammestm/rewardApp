@@ -389,8 +389,6 @@ public class DataBase extends SQLiteOpenHelper {
 
 }
 
-
-
     /*public void deleteDataRecord(long rowId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DATA_TABLE, KEY_ID + "=" + rowId, null);

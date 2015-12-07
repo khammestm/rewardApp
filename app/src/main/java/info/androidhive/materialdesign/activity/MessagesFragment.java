@@ -29,9 +29,6 @@ import info.androidhive.materialdesign.R;
  */
 public class MessagesFragment extends Fragment implements View.OnClickListener{
 
-
-    //String[] StringDiet = {"No food", "Breakfast", "Banana diet", "Meat diet"};
-
     private Long mRowId;
     private EditText meditName;
     private EditText meditAge;
@@ -117,7 +114,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
         meditName.getText().clear();
         mDbHelper = new DataBase(getActivity());
 
-        mDbHelper.createNewTodo("33","33","33","33","33","33");
+        //mDbHelper.createNewTodo("33","33","33","33","33","33");
         //mDbHelper.createNewTodo("mTitleText","mBodyText","meditWeight");
 
         mDb = mDbHelper.getWritableDatabase();
