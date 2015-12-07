@@ -40,11 +40,11 @@ public class RingAlarm2 extends FragmentActivity {
         Button stopAlarm = (Button) findViewById(R.id.button);
 
         mp = MediaPlayer.create(getBaseContext(),R.raw.alarm_2);
-        // Get instance of Vibrator from current Context
+        /*// Get instance of Vibrator from current Context
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 // Vibrate for 300 milliseconds
-        v.vibrate(1000);
+        v.vibrate(1000);*/
 
 
         /*NotificationCompat.Builder notification;

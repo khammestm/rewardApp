@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -43,18 +44,31 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
     private DataBase mDbHelper;
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
-    int i=1;
+   /* int i=1;*/
     /*private static final int uniqueID=45612;
     NotificationCompat.Builder notification;*/
-
+/*private BroadcastReceiver br;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent receiverIntent = new Intent(this, MyBroadcastReceiver.class);
+        PendingIntent sender = PendingIntent.getBroadcast(this, 123456789, receiverIntent, 0);
 
-        /*notification= new NotificationCompat.Builder(this);*/
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),60000, sender);
+
+       /* br = new BroadcastReceiver(this);
+        Intent intent = new Intent(this, br);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 234324243, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+                + (i * 1000), pendingIntent);
+*/
+
+      /*  *//*notification= new NotificationCompat.Builder(this);*//*
 
         Calendar c = Calendar.getInstance();
         System.out.println("Current time =&gt; "+c.getTime());
@@ -92,24 +106,24 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 System.out.println(goal_epoch);
 
 //Create a new PendingIntent and add it to the AlarmManager
-               /* Intent intent = new Intent(this, RingAlarm.class);
+               *//* Intent intent = new Intent(this, RingAlarm.class);
                 PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                        12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);*/
+                        12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);*//*
                 AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
 
-            if ((current_epoch<goal_epoch) && (current_steps<goal_steps) /*&& (current_epoch+259200000>goal_epoch) && a>8 && a<21*/){
+            if ((current_epoch<goal_epoch) && (current_steps<goal_steps) *//*&& (current_epoch+259200000>goal_epoch) && a>8 && a<21*//*){
                 try {
                     System.out.println("1111111111111111111111111111111111");
-                    /*i=i+1;*/
-                    /*if (i%6==0) {*/
+                    *//*i=i+1;*//*
+                    *//*if (i%6==0) {*//*
                         i=0;
                         Intent intent = new Intent(this, RingAlarm.class);
                         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                                 12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                    /*am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),60000 , pendingIntent);*/
+                    *//*am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),60000 , pendingIntent);*//*
                         am.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), pendingIntent);
-                    /*}*/
+                    *//*}*//*
 
                     long remaining_hours=(goal_epoch-current_epoch)/3600000;
                     long remaining_minutes=((goal_epoch-current_epoch)-remaining_hours*3600000)/60000;
@@ -117,9 +131,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                     System.out.println(remaining_hours);
                     System.out.println(remaining_minutes);
                     System.out.println(remaining_seconds);
-                    /*String r_h = Long.toString(remaining_hours);*/
-                    /*Log.d("About",""+r_h);*/
-                    /*int r_h=(int) remaining_hours;
+                    *//*String r_h = Long.toString(remaining_hours);*//*
+                    *//*Log.d("About",""+r_h);*//*
+                    *//*int r_h=(int) remaining_hours;
                     Log.d(""+ r_h);
 
                     
@@ -137,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                     notification.setContentIntent(pendingIntent2);
 
                     NotificationManager nm=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    nm.notify(uniqueID, notification.build());*/
+                    nm.notify(uniqueID, notification.build());*//*
 
 
 
@@ -147,11 +161,11 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
             }
 
-                if (/*(current_epoch<goal_epoch) &&*/ (current_steps>=goal_steps)){
+                if (*//*(current_epoch<goal_epoch) &&*//* (current_steps>=goal_steps)){
                     try {
                         i=0;
                         System.out.println("2222222222222222222222222");
-                        ///*Create a new PendingIntent and add it to the AlarmManager
+                        //*//*Create a new PendingIntent and add it to the AlarmManager
                         Intent intent2 = new Intent(this, RingAlarm2.class);
                         PendingIntent pendingIntent2 = PendingIntent.getActivity(this,
                                 12345, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -167,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                     try {
                         i=0;
                         System.out.println("33333333333333333333333333");
-                        ///*Create a new PendingIntent and add it to the AlarmManager
+                        //*//*Create a new PendingIntent and add it to the AlarmManager
                         Intent intent3 = new Intent(this, RingAlarm3.class);
                         PendingIntent pendingIntent3 = PendingIntent.getActivity(this,
                                 12345, intent3, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -184,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
+*/
 
 
 
@@ -237,6 +251,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         // display the first navigation drawer view on app launch
         displayView(0);
     }
+
+
+
 
 
 
