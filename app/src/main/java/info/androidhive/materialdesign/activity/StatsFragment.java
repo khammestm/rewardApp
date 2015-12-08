@@ -51,7 +51,7 @@ public class StatsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_stats, container, false);
         /*
-        Spinner (choice measerements type)
+        Spinner (choice measurements type)
          */
         Spinner graphSpinner = (Spinner) rootView.findViewById(R.id.graph_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),

@@ -447,6 +447,9 @@ public class HomeFragment extends Fragment {
         return result;
     }
 
+    public void refresh_goal(){
+
+    }
     private int mod(int x, int y)
     {
         int result = x % y;

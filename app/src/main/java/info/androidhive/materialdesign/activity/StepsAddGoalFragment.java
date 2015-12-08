@@ -67,6 +67,12 @@ public class StepsAddGoalFragment extends Fragment implements View.OnClickListen
                 try {
                     String message = "Entered distance: " + Integer.parseInt(goal_distance.getText().toString()) + ".";
                     message += "Entered date: " + getDateFromDatePickers(picker, tpicker);
+
+                    Calendar c = Calendar.getInstance();
+                    if(c.getTimeInMillis() > getDateFromDatePickers(picker,tpicker)){
+                        Toast.makeText(getActivity(), "Please enter a date from future!", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     mDbHelper.insertGoal(getDateFromDatePickers(picker,tpicker), goal_distance.getText().toString());
                     Log.d("Goal", "Added : " + message);
                     Log.d("Goal", "Current number of goals" + mDbHelper.getAllGoals().getCount());

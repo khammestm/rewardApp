@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -57,187 +58,19 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         Intent receiverIntent = new Intent(this, MyBroadcastReceiver.class);
         PendingIntent sender = PendingIntent.getBroadcast(this, 123456789, receiverIntent, 0);
 
+
+        SharedPreferences sharedPref = this.getSharedPreferences("FITNESS_PREFERENCES", Context.MODE_PRIVATE);
+        if(!sharedPref.contains("keep_working_timestamp")){
+            Log.d("MAIN", "This is the first time. Creating timestamp KEY and setting it to 0");
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putLong("keep_working_timestamp", 0);
+            editor.commit();
+        }
+
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),60000, sender);
 
-       /* br = new BroadcastReceiver(this);
-        Intent intent = new Intent(this, br);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 234324243, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-                + (i * 1000), pendingIntent);
-*/
 
-      /*  *//*notification= new NotificationCompat.Builder(this);*//*
-
-        Calendar c = Calendar.getInstance();
-        System.out.println("Current time =&gt; "+c.getTime());
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = df.format(c.getTime());
-        Date date = null;
-        try {
-            date = df.parse(formattedDate);
-            long current_epoch = date.getTime();
-            System.out.println(current_epoch);
-            mDbHelper = new DataBase(this);
-            Cursor cursor = mDbHelper.getEarliestGoalRecord();
-            Cursor cursor2 = mDbHelper.getLastDataRecord();
-            long goal_epoch = 0;
-
-
-            if ((cursor != null) && (cursor.getCount() > 0) && (cursor2 != null) && (cursor2.getCount() > 0)) {
-                cursor.moveToFirst();
-                String date2 = cursor.getString(cursor.getColumnIndex("date"));
-                String steps = cursor.getString(cursor.getColumnIndex("distance"));
-                Date date_obj = new Date(Long.parseLong(date2));
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                goal_epoch = date_obj.getTime();
-                int goal_steps = Integer.parseInt(steps);
-                System.out.println(goal_steps);
-
-                String current_step = cursor2.getString(cursor2.getColumnIndex("steps"));
-                int current_steps = Integer.parseInt(current_step);
-                System.out.println(current_steps);
-                long x=(current_epoch%(3600*24*1000));
-                long a=x/(3600*1000);
-                System.out.println(a);
-
-                System.out.println(current_epoch);
-                System.out.println(goal_epoch);
-
-//Create a new PendingIntent and add it to the AlarmManager
-               *//* Intent intent = new Intent(this, RingAlarm.class);
-                PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                        12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);*//*
-                AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-
-
-            if ((current_epoch<goal_epoch) && (current_steps<goal_steps) *//*&& (current_epoch+259200000>goal_epoch) && a>8 && a<21*//*){
-                try {
-                    System.out.println("1111111111111111111111111111111111");
-                    *//*i=i+1;*//*
-                    *//*if (i%6==0) {*//*
-                        i=0;
-                        Intent intent = new Intent(this, RingAlarm.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                                12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                    *//*am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),60000 , pendingIntent);*//*
-                        am.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), pendingIntent);
-                    *//*}*//*
-
-                    long remaining_hours=(goal_epoch-current_epoch)/3600000;
-                    long remaining_minutes=((goal_epoch-current_epoch)-remaining_hours*3600000)/60000;
-                    long remaining_seconds=((goal_epoch-current_epoch)-remaining_hours*3600000-remaining_minutes*60000)/1000;
-                    System.out.println(remaining_hours);
-                    System.out.println(remaining_minutes);
-                    System.out.println(remaining_seconds);
-                    *//*String r_h = Long.toString(remaining_hours);*//*
-                    *//*Log.d("About",""+r_h);*//*
-                    *//*int r_h=(int) remaining_hours;
-                    Log.d(""+ r_h);
-
-                    
-                    notification.setAutoCancel(true);
-
-                    notification.setSmallIcon(R.mipmap.ic_launcher);
-                    notification.setTicker("This is the ticker");
-                    notification.setWhen(System.currentTimeMillis());
-                    notification.setContentTitle("Here is the title");
-                    notification.setContentText("I am the body of not");
-                    notification.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
-
-                    Intent intent2=new Intent(this,MainActivity.class);
-                    PendingIntent pendingIntent2= PendingIntent.getActivity(this,0,intent2,PendingIntent.FLAG_UPDATE_CURRENT);
-                    notification.setContentIntent(pendingIntent2);
-
-                    NotificationManager nm=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    nm.notify(uniqueID, notification.build());*//*
-
-
-
-
-                } catch (Exception e){}
-
-
-            }
-
-                if (*//*(current_epoch<goal_epoch) &&*//* (current_steps>=goal_steps)){
-                    try {
-                        i=0;
-                        System.out.println("2222222222222222222222222");
-                        //*//*Create a new PendingIntent and add it to the AlarmManager
-                        Intent intent2 = new Intent(this, RingAlarm2.class);
-                        PendingIntent pendingIntent2 = PendingIntent.getActivity(this,
-                                12345, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
-                        am.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),pendingIntent2);
-                        mDbHelper.deleteFirstRow();
-
-                    } catch (Exception e){}
-
-                }
-
-
-                if ((current_epoch>=goal_epoch && (current_steps<goal_steps))){
-                    try {
-                        i=0;
-                        System.out.println("33333333333333333333333333");
-                        //*//*Create a new PendingIntent and add it to the AlarmManager
-                        Intent intent3 = new Intent(this, RingAlarm3.class);
-                        PendingIntent pendingIntent3 = PendingIntent.getActivity(this,
-                                12345, intent3, PendingIntent.FLAG_CANCEL_CURRENT);
-                        am.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), pendingIntent3);
-                        mDbHelper.deleteFirstRow();
-                    } catch (Exception e){}
-
-                }
-
-
-
-            }
-                mDbHelper.close();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-*/
-
-
-
-
-        /*try {
-
-            //Create a new PendingIntent and add it to the AlarmManager
-            Intent intent = new Intent(this, RingAlarm.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                    12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-            AlarmManager am =
-                    (AlarmManager)getSystemService(Activity.ALARM_SERVICE);
-            am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),
-                    1000*10,pendingIntent);
-
-            NotificationCompat.Builder notification;
-            final int uniqueID=45612;
-            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            notification= new NotificationCompat.Builder(this);
-            notification.setAutoCancel(true);
-
-            notification.setSmallIcon(R.mipmap.ic_launcher);
-            notification.setTicker("This is the ticker");
-            notification.setWhen(System.currentTimeMillis());
-            notification.setContentTitle("Here is the title");
-            notification.setContentText("I am the body of not");
-            notification.setSound(alarmSound);
-            notification.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
-
-            Intent intent2=new Intent(this,MainActivity.class);
-            PendingIntent pendingIntent2= PendingIntent.getActivity(this,0,intent2,PendingIntent.FLAG_UPDATE_CURRENT);
-            notification.setContentIntent(pendingIntent2);
-
-            NotificationManager nm=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            nm.notify(uniqueID, notification.build());
-
-
-
-        } catch (Exception e) {}*/
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
