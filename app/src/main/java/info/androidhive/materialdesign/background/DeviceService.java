@@ -55,7 +55,7 @@ public class DeviceService extends WakeReminderIntentService {
 
     @Override
     public int onStartCommand(Intent intent,int flags, int startId){
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
         Log.d("Alarm", "I am running");
 
         // Start intent service for device connection and data receiving

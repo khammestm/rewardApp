@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import info.androidhive.materialdesign.R;
 
@@ -24,6 +25,7 @@ public class RingAlarm3 extends FragmentActivity {
 
     MediaPlayer mp=null ;
     ImageView image;
+    private final String TAG = "RA-3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,38 +38,18 @@ public class RingAlarm3 extends FragmentActivity {
         image = (ImageView) findViewById(R.id.image_3);
         image.setImageResource(R.drawable.fail_photo);
 
-        /*R.layout.fragment_about*/
-        /*Toast.makeText(getApplicationContext(), "YAY!", Toast.LENGTH_LONG).show();*/
+
         Button stopAlarm = (Button) findViewById(R.id.button);
 
         mp = MediaPlayer.create(getBaseContext(),R.raw.alarm_3);
-        // Get instance of Vibrator from current Context
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
-// Vibrate for 300 milliseconds
-        v.vibrate(1000);
 
 
-        /*NotificationCompat.Builder notification;
-        final int uniqueID=45612;
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        notification= new NotificationCompat.Builder(this);
-        notification.setAutoCancel(true);
+        int goal_steps3 = getIntent().getExtras().getInt("goal_steps3");
 
-        notification.setSmallIcon(R.mipmap.ic_launcher);
-        notification.setTicker("This is the ticker");
-        notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle("Here is the title");
-        notification.setContentText("I am the body of not");
-        *//*notification.setSound(alarmSound);*//*
-        notification.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        /*Log.d(TAG, "Ring Alarm 2 triggered with Remaining Time: " + remaining_time + ", steps: " + remaining_steps);*/
 
-        Intent intent2=new Intent(this,RingAlarm.class);
-        PendingIntent pendingIntent2= PendingIntent.getActivity(this,0,intent2,PendingIntent.FLAG_UPDATE_CURRENT);
-        notification.setContentIntent(pendingIntent2);
-
-        NotificationManager nm=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(uniqueID, notification.build());*/
+        TextView goal_text3 = (TextView) findViewById(R.id.text_goal3);
+        goal_text3.setText("You did not complete " + goal_steps3+ " steps in given time");
 
 
         stopAlarm.setOnTouchListener(new OnTouchListener() {

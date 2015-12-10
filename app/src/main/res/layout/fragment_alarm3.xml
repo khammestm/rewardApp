@@ -1,44 +1,46 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context="info.androidhive.materialdesign.activity.HomeFragment">
 
 
     <ImageView
         android:id="@+id/image_3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top"
-        android:layout_gravity="top"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/fail_photo"/>
-        <!--android:layout_marginTop="-73dp"/>-->
+        android:src="@drawable/fail_photo" />
 
     <TextView
         android:id="@+id/label"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="290dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="35dp"
+        android:textSize="30dp"
         android:text="YOU HAVE FAILED YOUR BODY!"
+        android:textStyle="bold"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:id="@+id/text_goal3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:text="-"
         android:textStyle="bold"/>
+
 
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="I am sorry, I will work more!"
+        android:text="I'm ready yo!"
         android:id="@+id/button"
-        android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        />
 
 
 
-</RelativeLayout>
+</LinearLayout>

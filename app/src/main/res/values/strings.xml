@@ -104,4 +104,16 @@
         <string name="Reward2">Beer for better digestion, you desirved it! </string>
         <string name="Reward1">Eating chocolate is good for you today! Chocolate makes you live longer, Chocolate is good for stress. Come on, guy, do it!</string>
         <string name="Reward3">Good news for the kid in you: if you want to have your cake today - you can do it! </string>
+
+
+    <!--Graph(Statistics Fragment)-->
+    <string name="choice_parameter">Choice parameter to show</string>
+    <string name="weekly_graph">Statistics for the last Week</string>
+    <string name="monthly_graph">Statistics for the last Month</string>
+    <string-array name="graph_choice">
+        <item>Distance</item>
+        <item>Steps</item>
+        <item>Calories</item>
+    </string-array>
+
 </resources>

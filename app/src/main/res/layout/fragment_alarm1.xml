@@ -1,14 +1,15 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context="info.androidhive.materialdesign.activity.HomeFragment">
 
 
     <ImageView
         android:id="@+id/image_1"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="top"
         android:layout_gravity="top"
@@ -17,13 +18,22 @@
 
     <TextView
         android:id="@+id/label"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="290dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="40dp"
+        android:textSize="30dp"
         android:text="KEEP WORKING TO COMPLETE YOUR TASK!"
+        android:textStyle="bold"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:id="@+id/text_goal"
+        android:layout_alignParentTop="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:text="-"
         android:textStyle="bold"/>
 
 
@@ -33,12 +43,8 @@
         android:layout_height="wrap_content"
         android:text="I'm ready yo!"
         android:id="@+id/button"
-        android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        />
 
 
 
-</RelativeLayout>
+</LinearLayout>

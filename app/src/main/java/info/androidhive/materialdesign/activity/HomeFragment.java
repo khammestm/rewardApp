@@ -4,6 +4,7 @@ package info.androidhive.materialdesign.activity;
  * Created by Daria, Roma, Alper
  */
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -26,7 +27,9 @@ import java.util.Date;
 import java.util.List;
 
 import info.androidhive.materialdesign.R;
-
+import info.androidhive.materialdesign.auxilary.TestDataMonth;
+import info.androidhive.materialdesign.activity.StatsFragment;
+import info.androidhive.materialdesign.background.DeviceService;
 
 public class HomeFragment extends Fragment {
     private DataBase mDbHelper;
@@ -40,7 +43,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        checkDatabaseForData();
+        Intent service = new Intent(getActivity(), DeviceService.class);
+        getActivity().startService(service);
     }
 
     @Override
@@ -387,6 +392,9 @@ public class HomeFragment extends Fragment {
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent service = new Intent(getActivity(), DeviceService.class);
+                getActivity().startService(service);
+
                 String data_today = showLastDataRecord();
                 data_home_distance.setText(data_today);
                 String data_today_distance = data_today.substring(data_today.lastIndexOf("Distance: "), data_today.indexOf("Calories: ") - 1);
@@ -411,6 +419,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        Intent service = new Intent(getActivity(), DeviceService.class);
+        getActivity().startService(service);
     }
 
     @Override
@@ -469,6 +479,9 @@ public class HomeFragment extends Fragment {
         return result;
     }
 
+    public void refresh_goal(){
+
+    }
     private int mod(int x, int y)
     {
         int result = x % y;
@@ -478,6 +491,7 @@ public class HomeFragment extends Fragment {
     public static int abs(int a) {
         return  (a < 0) ? -a : a;
     }
+
 
     private String ReadPersonalName(){
         mDbHelper = new DataBase(getActivity());
@@ -548,4 +562,25 @@ public class HomeFragment extends Fragment {
         mDbHelper.close();
         return result;
     }
+
+    private void checkDatabaseForData(){
+        mDbHelper = new DataBase(getActivity());
+        mDb = mDbHelper.getWritableDatabase();
+        Cursor cursor = mDbHelper.getLastDataRecord();
+        if ((cursor == null) || (cursor.getCount() < 29)) {
+            //String rowId = cursor.getString(cursor.getColumnIndex("_id"));
+            //Log.d("Stats", "" + rowId);
+            TestDataMonth testData = new TestDataMonth();
+            ArrayList<String[]> testDataArray = testData.createTestData();
+            for (String[] testDay : testDataArray) {
+                String date = testDay[0];
+                String steps = testDay[1];
+                String distance = testDay[2];
+                String calories = testDay[3];
+                mDbHelper.createNewDataRecord(date, steps, distance, calories);
+            }
+        }
+        mDbHelper.close();
+    }
+
 }

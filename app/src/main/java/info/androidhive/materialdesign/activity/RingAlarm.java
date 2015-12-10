@@ -23,7 +23,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.concurrent.TimeUnit;
 
 import info.androidhive.materialdesign.R;
 
@@ -31,6 +34,7 @@ public class RingAlarm extends FragmentActivity {
 
     MediaPlayer mp=null ;
     ImageView image;
+    private final String TAG = "RA-1";
    /* private DataBase mDbHelper;*/
 
     @Override
@@ -45,37 +49,19 @@ public class RingAlarm extends FragmentActivity {
         image = (ImageView) findViewById(R.id.image_1);
         image.setImageResource(R.drawable.keepworking_photo);
 
-        /*R.layout.fragment_about*/
-        /*Toast.makeText(getApplicationContext(), "YAY!", Toast.LENGTH_LONG).show();*/
+
         Button stopAlarm = (Button) findViewById(R.id.button);
 
         mp = MediaPlayer.create(getBaseContext(),R.raw.alarm_1);
-        // Get instance of Vibrator from current Context
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-// Vibrate for 300 milliseconds
-        v.vibrate(1000);
 
-        /*NotificationCompat.Builder notification;
-        final int uniqueID=45612;
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        notification= new NotificationCompat.Builder(this);
-        notification.setAutoCancel(true);
+        Long remaining_time = getIntent().getExtras().getLong("remaining_goal_time");
+        int remaining_steps = getIntent().getExtras().getInt("remaining_steps");
 
-        notification.setSmallIcon(R.mipmap.ic_launcher);
-        notification.setTicker("This is the ticker");
-        notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle("Here is the title");
-        notification.setContentText("I am the body of not");
-        *//*notification.setSound(alarmSound);*//*
-        notification.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        Log.d(TAG, "Ring Alarm 1 triggered with Remaining Time: " + remaining_time + ", steps: " + remaining_steps);
 
-        Intent intent2=new Intent(this,RingAlarm.class);
-        PendingIntent pendingIntent2= PendingIntent.getActivity(this,0,intent2,PendingIntent.FLAG_UPDATE_CURRENT);
-        notification.setContentIntent(pendingIntent2);
-
-        NotificationManager nm=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(uniqueID, notification.build());*/
+        TextView goal_text = (TextView) findViewById(R.id.text_goal);
+        goal_text.setText("You need " + remaining_steps + " more steps in " + convertSecondsToHMmSs(remaining_time));
 
 
         stopAlarm.setOnTouchListener(new OnTouchListener() {
@@ -90,6 +76,14 @@ public class RingAlarm extends FragmentActivity {
         });
 
         playSound(this, getAlarmUri());
+    }
+
+    public static String convertSecondsToHMmSs(long seconds) {
+        seconds = seconds/1000;
+        long s = seconds % 60;
+        long m = (seconds / 60) % 60;
+        long h = (seconds / (60 * 60)) % 24;
+        return String.format("%d:%02d:%02d", h,m,s);
     }
 
     private void playSound(final Context context, Uri alert) {
