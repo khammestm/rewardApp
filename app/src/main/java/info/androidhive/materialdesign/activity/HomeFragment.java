@@ -53,6 +53,14 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+
+//--------------------------------------------------------------------------------------------------
+//create database if doesnt exist
+        String check = ReadPersonalName();
+        if (check == "")
+        {
+            mDbHelper.createNewTodo("Enter your name","0","0","0","no diet","nobody");
+        }
 //--------------------------------------------------------------------------------------------------
 //TextView, Buttons declaration
         TextView recommendation= (TextView)rootView.findViewById(R.id.MOVE);

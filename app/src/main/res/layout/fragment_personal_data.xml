@@ -10,31 +10,30 @@
         android:id="@+id/textName"
         android:layout_alignParentTop="true"
         android:layout_marginTop="30dp"
-        android:layout_width="fill_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="18dp"
+        android:layout_marginLeft="40dip"
+        android:textSize="20dp"
         android:text="NAME"
         android:textStyle="bold"/>
 
     <EditText
         android:layout_below="@id/textName"
         android:id="@+id/Name"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="17dp"
         android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
+        android:layout_marginLeft="40dip"
         android:editable="false" />
 
 
     <TextView
         android:id="@+id/textAge"
-        android:layout_width="fill_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="18dp"
+        android:layout_marginLeft="40dip"
+        android:textSize="20dp"
         android:text="AGE"
         android:textStyle="bold"
         android:layout_below="@+id/Name"
@@ -45,21 +44,21 @@
     <EditText
         android:layout_below="@id/textAge"
         android:id="@+id/Age"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="17dp"
         android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:editable="false"/>
+        android:layout_marginLeft="40dip"
+        android:editable="false"
+        android:inputType="number"/>
 
     <TextView
         android:layout_below="@id/Age"
         android:id="@+id/textHeight"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="18dp"
+        android:layout_marginLeft="40dip"
+        android:textSize="20dp"
         android:text="HEIGHT"
         android:textStyle="bold"
         android:layout_centerVertical="true"
@@ -70,21 +69,21 @@
     <EditText
         android:layout_below="@id/textHeight"
         android:id="@+id/Height"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="17dp"
         android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:editable="false"/>
+        android:layout_marginLeft="40dip"
+        android:editable="false"
+        android:inputType="number"/>
 
     <TextView
         android:id="@+id/TextWeight"
         android:layout_below="@id/Height"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="18dp"
+        android:layout_marginLeft="40dip"
+        android:textSize="20dp"
         android:text="WEIGHT"
         android:textStyle="bold"
         android:layout_marginTop="20dp" />
@@ -92,20 +91,20 @@
     <EditText
         android:id="@+id/Weight"
         android:layout_below="@id/TextWeight"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="17dp"
         android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:editable="false" />
+        android:layout_marginLeft="40dip"
+        android:editable="false"
+        android:inputType="number"/>
 
     <TextView
         android:id="@+id/textDiete"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="18dp"
+        android:layout_marginLeft="40dip"
+        android:textSize="20dp"
         android:text="DIETE"
         android:textStyle="bold"
         android:layout_below="@+id/Weight"
@@ -116,12 +115,11 @@
     <TextView
         android:layout_below="@id/textDiete"
         android:id="@+id/Diete"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="17dp"
         android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
+        android:layout_marginLeft="40dip"
         android:editable="false"/>
 
     <Spinner
@@ -129,16 +127,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinnerDiete"
         android:layout_below="@+id/textDiete"
-        android:layout_marginStart="350dp"
+        android:layout_marginLeft="30dip"
         android:layout_marginTop="20dp"
-        android:textSize="12dp"  />
+        android:textSize="17dp" />
 
     <TextView
         android:id="@+id/textWantToBeLike"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="18dp"
+        android:layout_marginLeft="40dip"
+        android:textSize="20dp"
         android:text="WANT TO LOOK LIKE"
         android:textStyle="bold"
         android:layout_below="@+id/textDiete"
@@ -147,12 +145,11 @@
     <TextView
         android:layout_below="@id/textWantToBeLike"
         android:id="@+id/WantToBeLike"
-        android:layout_centerInParent="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="17dp"
         android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
+        android:layout_marginLeft="40dp"
         android:editable="false"/>
 
     <Spinner
@@ -160,30 +157,32 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinnerLook"
         android:layout_below="@+id/textWantToBeLike"
-        android:layout_marginStart="350dp"
+        android:layout_marginLeft="30dip"
         android:layout_marginTop="20dp"
-        android:textSize="12dp" />
+        android:textSize="17dp" />
 
 
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="130dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:id="@+id/imageLook"
-        android:layout_below="@+id/textWantToBeLike"
-        android:layout_marginTop="60dp" />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="EDIT"
-        android:id="@+id/buttonEdit"
-        android:layout_below="@+id/imageLook"
-        android:layout_marginTop="20dp"  />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="70dp"/>
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="SAVE"
+        android:id="@+id/buttonEdit"
+        android:layout_below="@+id/textWantToBeLike"
+        android:layout_marginTop="70dp"  />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="EDIT"
         android:id="@+id/buttonSave"
         android:layout_below="@+id/buttonEdit"/>
 
