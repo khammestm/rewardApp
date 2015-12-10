@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dip">
 
     <TextView
         android:layout_width="match_parent"
@@ -21,17 +22,55 @@
         android:layout_marginTop="20dip"
         android:layout_marginBottom="20dip" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choice_start"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_alignBottom="@+id/start_date" />
+
+        <Button
+            android:id="@+id/start_date"
+            android:layout_width="fill_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dip"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choice_end"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_alignBottom="@+id/end_date"/>
+        <Button
+            android:id="@+id/end_date"
+            android:layout_width="fill_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/weekly_graph"
         android:textAlignment="center"
         android:textSize="20dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:id="@+id/text_week_data"/>
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="fill_parent"
-        android:layout_height="350dip"
+        android:layout_height="320dip"
         android:id="@+id/graph1" />
 
     <TextView
@@ -44,7 +83,7 @@
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="fill_parent"
-        android:layout_height="350dip"
+        android:layout_height="320dip"
         android:id="@+id/graph2" />
 
 </LinearLayout>
