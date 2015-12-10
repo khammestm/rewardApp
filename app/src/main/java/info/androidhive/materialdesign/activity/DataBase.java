@@ -281,6 +281,13 @@ public class DataBase extends SQLiteOpenHelper {
         return mCursor;
     }
 
+    public Cursor getDateRangeDataRecord(String minDate, String maxDate) throws SQLException {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = mDb.query(DATA_TABLE, null, COLUMN_DATE + " BETWEEN ? AND ?", new String[]{
+                minDate + " 00:00:00", maxDate + " 23:59:59"}, null, null, null, null);
+        return cursor;
+    }
+
     /**
      * Return all data records
      * @return cursor with all data records
