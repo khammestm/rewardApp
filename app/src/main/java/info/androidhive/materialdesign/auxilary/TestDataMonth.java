@@ -2,6 +2,7 @@ package info.androidhive.materialdesign.auxilary;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
@@ -63,7 +64,9 @@ public class TestDataMonth {
      */
     private String convertToCalories(String steps){
         double stepsInt = Double.parseDouble(steps);
-        double calories = stepsInt * 0.048;
+        //double calories = stepsInt * 0.048;
+        double calories = 100000;
+        Log.d("DeviceService1", "convertToCalories ");
         Long L = Math.round(calories);
         int caloriesInt = Integer.valueOf(L.intValue());
 

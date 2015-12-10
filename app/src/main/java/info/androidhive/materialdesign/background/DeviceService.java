@@ -153,7 +153,7 @@ public class DeviceService extends WakeReminderIntentService {
         cursor = mDbHelper.getLastDataRecord();
         String dateDB = cursor.getString(cursor.getColumnIndex("date"));
         long id = cursor.getLong(cursor.getColumnIndex("_id"));
-        Log.d(TAG, "Data record "+dateDB);
+        Log.d(TAG, "Data record " + dateDB);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
@@ -200,6 +200,8 @@ public class DeviceService extends WakeReminderIntentService {
         int weight = Integer.parseInt(ReadPersonalWeight());
         double metob = (age*5 + 6.25*heigh + 10*weight);
         double calories = ((0.007*stepsInt * 0.698)*metob)*weight;
+        //double calories = 900000;
+        Log.d(TAG, "CALLORIES ");
         Long L = Math.round(calories);
         int caloriesInt = L.intValue();
 
@@ -214,6 +216,8 @@ public class DeviceService extends WakeReminderIntentService {
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
+
+
 
     private String ReadPersonalAge(){
         mDbHelper = new DataBase(this);
