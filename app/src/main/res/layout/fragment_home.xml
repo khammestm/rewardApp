@@ -217,7 +217,8 @@
         android:textSize="18dp"
         android:layout_below="@+id/reward_bar"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dip" />
+        android:layout_marginTop="10dip"
+        android:layout_marginLeft="20dip"  />
 
     <TextView
         android:id="@+id/reward_to_do"

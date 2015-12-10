@@ -209,7 +209,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
 
     private void SaveTextData() {
         meditName.setFocusable(false);
-        meditName.setInputType(InputType.TYPE_NULL);
         meditName.setClickable(false);
 
         meditAge.setFocusable(false);
@@ -243,6 +242,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
         meditName.setClickable(true);
         meditName.setEnabled(true);
         meditName.setFocusableInTouchMode(true);
+        meditName.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
 
         meditAge.setFocusable(true);
         meditAge.setClickable(true);

@@ -195,7 +195,11 @@ public class DeviceService extends WakeReminderIntentService {
      */
     private String convertToCalories(String steps){
         double stepsInt = Double.parseDouble(steps);
-        double calories = stepsInt * 0.048;
+        int age = Integer.parseInt(ReadPersonalAge());
+        int heigh = Integer.parseInt(ReadPersonalHeiht());
+        int weight = Integer.parseInt(ReadPersonalWeight());
+        double metob = (age*5 + 6.25*heigh + 10*weight);
+        double calories = ((0.007*stepsInt * 0.698)*metob)*weight;
         Long L = Math.round(calories);
         int caloriesInt = L.intValue();
 
@@ -209,6 +213,48 @@ public class DeviceService extends WakeReminderIntentService {
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
+    }
+
+    private String ReadPersonalAge(){
+        mDbHelper = new DataBase(this);
+        Cursor cursor = mDbHelper.getAllTodos();
+        String result = "";
+        if ((cursor != null) && (cursor.getCount() > 0)) {
+            cursor.moveToFirst();
+            String agePerson = cursor.getString(cursor.getColumnIndex("age"));
+            result = agePerson;
+            Log.d("Home", "RESULT: " + result);
+        }
+        mDbHelper.close();
+        return result;
+    }
+
+    private String ReadPersonalWeight(){
+        mDbHelper = new DataBase(this);
+        Cursor cursor = mDbHelper.getAllTodos();
+        String result = "";
+        if ((cursor != null) && (cursor.getCount() > 0)) {
+            cursor.moveToFirst();
+            String weightPerson = cursor.getString(cursor.getColumnIndex("weight"));
+            result = weightPerson;
+            Log.d("Home", "RESULT: " + result);
+        }
+        mDbHelper.close();
+        return result;
+    }
+
+    private String ReadPersonalHeiht(){
+        mDbHelper = new DataBase(this);
+        Cursor cursor = mDbHelper.getAllTodos();
+        String result = "";
+        if ((cursor != null) && (cursor.getCount() > 0)) {
+            cursor.moveToFirst();
+            String heihtPerson = cursor.getString(cursor.getColumnIndex("heiht"));
+            result = heihtPerson;
+            Log.d("Home", "RESULT: " + result);
+        }
+        mDbHelper.close();
+        return result;
     }
 
 }

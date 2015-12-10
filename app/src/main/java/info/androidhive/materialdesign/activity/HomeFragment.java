@@ -343,6 +343,7 @@ public class HomeFragment extends Fragment {
 
 //--------------------------------------------------------------------------------------------------
 // Reward
+
             if (days_left == 0)
             {
                 String count_today_steps = data_today_steps.substring(6, data_today.lastIndexOf("Distance: ")-1);
@@ -379,8 +380,29 @@ public class HomeFragment extends Fragment {
                 }
                 else if ( achived_goal < 0)
                 {
-                    imgReward.setImageResource(R.drawable.nothing);
-                    reward_text.setText("You shall listen do the guy above\n" + "You just need to do " + String.valueOf(-achived_goal) + " steps more");
+
+                    switch (lookPerson) {
+                        case ("Angelina"):
+                            imgReward.setImageResource(R.drawable.angelina);
+                            break;
+                        case ("Jessica"):
+                            imgReward.setImageResource(R.drawable.jessica);
+                            break;
+                        case ("Muscular girl"):
+                            imgReward.setImageResource(R.drawable.muscular);
+                            break;
+                        case ("Kiera"):
+                            imgReward.setImageResource(R.drawable.kiera);
+                            break;
+                        case ("Victoria Secret model"):
+                            imgReward.setImageResource(R.drawable.victoria);
+                            break;
+                        default:
+                            imgReward.setImageResource(R.drawable.white);
+                            break;
+
+                    }
+                    reward_text.setText("You shall train harder, "+ namePerson +", to look like " + lookPerson + "!\n" + "You just need to do " + String.valueOf(-achived_goal) + " steps more");
                 }
                 //reward_text.setText(String.valueOf(achived_goal) + " = - " + String.valueOf(count_steps) + " + " + String.valueOf(done_steps));
             }
