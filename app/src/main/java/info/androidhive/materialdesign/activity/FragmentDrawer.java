@@ -1,7 +1,7 @@
 package info.androidhive.materialdesign.activity;
 
 /**
- * Created by Ravi on 29/07/15.
+ * Created by Daria, Roma, Alper
  */
 
 import android.content.Context;

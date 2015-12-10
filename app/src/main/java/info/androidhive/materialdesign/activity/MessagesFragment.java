@@ -25,9 +25,12 @@ import java.util.List;
 import info.androidhive.materialdesign.R;
 
 /**
- * Created by Ravi on 29/07/15.
+ * Created by Daria, Roma, Alper
  */
 public class MessagesFragment extends Fragment implements View.OnClickListener{
+
+
+    //String[] StringDiet = {"No food", "Breakfast", "Banana diet", "Meat diet"};
 
     private Long mRowId;
     private EditText meditName;
@@ -78,7 +81,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener{
 
 /*************************************************************************************************************************/
         ArrayAdapter<String> StringDiet = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, new
-                String[]{"No food", "Breakfast", "Banana diet", "Meat diet"});
+                String[]{"No diet", "The Flat Belly Diet", "The Fast Food Diet", "The Grapefruit Diet"});
         mDieteSpinner.setAdapter(StringDiet);
         mDieteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

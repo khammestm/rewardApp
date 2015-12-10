@@ -1,5 +1,9 @@
 package info.androidhive.materialdesign.activity;
 
+/**
+ * Created by Daria, Roma, Alper
+ */
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

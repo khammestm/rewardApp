@@ -1,7 +1,9 @@
 /**
  * Created by rshir on 28.11.2015.
  */
-
+/**
+ * Created by Daria, Roma, Alper
+ */
 package info.androidhive.materialdesign.activity;
 
 import android.app.Activity;
