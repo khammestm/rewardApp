@@ -8,15 +8,17 @@
     <string name="nav_item_home">Today</string>
     <string name="nav_item_daily_activities">Daily activity</string>
     <string name="nav_item_set_goal">Set Goal</string>
+    <string name="nav_item_my_goals">My Goals</string>
     <string name="nav_item_personal_data">Personal data</string>
     <string name="nav_item_statistics">Statistics</string>
     <string name="nav_item_about">About</string>
-
+    <string name="Buttoon">Display Goals</string>
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
         <item>@string/nav_item_daily_activities</item>
         <item>@string/nav_item_set_goal</item>
+        <item>@string/nav_item_my_goals</item>
         <item>@string/nav_item_personal_data</item>
         <item>@string/nav_item_statistics</item>
         <item>@string/nav_item_about</item>

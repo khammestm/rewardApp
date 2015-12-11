@@ -5,13 +5,19 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import info.androidhive.materialdesign.R;
 
 public class DataBase extends SQLiteOpenHelper {
 
@@ -350,8 +356,9 @@ public class DataBase extends SQLiteOpenHelper {
 
     public Cursor getAllGoals() {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.query(GOAL_TABLE, new String[] { KEY_ID, GOAL_DATE, GOAL_DISTANCE }, null,
+        return db.query(GOAL_TABLE, new String[]{KEY_ID, "strftime('%d-%m-%Y %H:%M', " + GOAL_DATE + "/1000, 'unixepoch','localtime') as " + GOAL_DATE, GOAL_DISTANCE}, null,
                 null, null, null, null);
+        //return db.rawQuery("select strftime( '%d-%m-%Y', birthday) as birthday");
     }
 
     /**
@@ -359,6 +366,7 @@ public class DataBase extends SQLiteOpenHelper {
      * @return Cursor with requested record for user data
      * @throws SQLException
      */
+
     public Cursor getEarliestGoalRecord() throws SQLException {
         String query_to_fetch_earliest="select *  from "+GOAL_TABLE+" order  by " + GOAL_DATE + " ASC ";
         SQLiteDatabase db = this.getWritableDatabase();
@@ -386,6 +394,27 @@ public class DataBase extends SQLiteOpenHelper {
        }
 
    }
+
+    public void deleteGoalRow(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(GOAL_TABLE, KEY_ID + "=?", new String[]{Integer.toString(id)});
+        Log.d(TAG, "Trying to remove " + id);
+    }
+
+/*public void displayList(){
+    SQLiteDatabase db = this.getWritableDatabase();
+    Cursor cursor = db.getAllGoals();
+    String[] fromFieldNames= new String[] {DataBase.KEY_ID,DataBase.GOAL_DATE};
+       *//* int toViewIDs= *//*
+    SimpleCursorAdapter myCursorAdapter=new SimpleCursorAdapter(getBaseContext(), R.layout.fragment_display_goals, cursor,fromFieldNames,new int[]{R.id.list_item},0);
+
+    ListView myList= getLis
+    myList.setAdapter(myCursorAdapter);
+
+
+}*/
+
+
 
 }
 

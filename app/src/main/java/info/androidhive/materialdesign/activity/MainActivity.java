@@ -25,7 +25,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 /*private BroadcastReceiver br;*/
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -86,6 +89,18 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
     }
 
 
+
+    /*protected void populateListView(){
+
+        mDbHelper = new DataBase(this);
+        Cursor cursor = mDbHelper.getAllGoals();
+        String[] fromFieldNames= new String[] {DataBase.KEY_ID,DataBase.GOAL_DATE};
+       *//* int toViewIDs= *//*
+        SimpleCursorAdapter myCursorAdapter=new SimpleCursorAdapter(getBaseContext(),R.layout.fragment_display_goals, cursor,fromFieldNames,new int[]{R.id.list_item},0);
+        ListView myList= (ListView) findViewbyId(R.id.list_item);
+        myList.setAdapter(myCursorAdapter);
+
+    }*/
 
 
 
@@ -139,14 +154,18 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_set_goal);
                 break;
             case 3:
+                fragment = new DisplayGoalsFragment();
+                title = "MY GOALS";
+                break;
+            case 4:
                 fragment = new MessagesFragment();
                 title = getString(R.string.title_personal_data);
                 break;
-            case 4:
+            case 5:
                 fragment = new StatsFragment();
                 title = getString(R.string.title_statistics);
                 break;
-            case 5:
+            case 6:
                 fragment = new AboutFragment();
                 title = getString(R.string.title_about);
                 break;
