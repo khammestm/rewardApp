@@ -1,7 +1,9 @@
 /**
  * Created by rshir on 28.11.2015.
  */
-
+/**
+ * Created by Daria, Roma, Alper
+ */
 package info.androidhive.materialdesign.activity;
 
 import android.app.Activity;
@@ -313,7 +315,8 @@ public class StepsFragment extends Fragment {
     */
     private String convertToCalories(String steps){
         double stepsInt = Double.parseDouble(steps);
-        double calories = stepsInt * 0.048;
+        //double calories = stepsInt * 0.048;
+        double calories = 10000;
         Long L = Math.round(calories);
         int caloriesInt = L.intValue();
 

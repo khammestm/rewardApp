@@ -112,6 +112,8 @@
     <string name="choice_parameter">Choice parameter to show</string>
     <string name="weekly_graph">Statistics for the last Week</string>
     <string name="monthly_graph">Statistics for the last Month</string>
+    <string name="choice_start">Choice specific dates.   From: </string>
+    <string name="choice_end">Until:</string>
     <string-array name="graph_choice">
         <item>Distance</item>
         <item>Steps</item>

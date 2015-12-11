@@ -84,14 +84,17 @@
         android:layout_above="@+id/view"
         android:layout_alignParentStart="true" />
 
-    <android.support.v7.widget.Toolbar
+    <TextView
+        android:id="@+id/Daily"
         android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:id="@+id/view2"
+        android:layout_height="wrap_content"
+        android:textSize="24dp"
+        android:text="          Schedule tracking:"
         android:background="?attr/colorPrimary"
         android:layout_below="@+id/imageButton"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="40dp"
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/earliest_goalDate"
@@ -149,7 +152,18 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="60dip"/>
 
-    <!--Diete -->
+    <!--Schedule tracking -->
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:id="@+id/view2"
+        android:background="?attr/colorPrimary"
+        android:layout_below="@+id/imageButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp" />
+
+
     <TextView
         android:id="@+id/diete_Time"
         android:layout_width="450dp"
@@ -159,7 +173,7 @@
         android:textStyle="bold"
         android:layout_below="@+id/view2"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dip" />
+        android:layout_marginTop="40dip" />
 
     <TextView
         android:id="@+id/MOVE"
@@ -176,22 +190,35 @@
 
     <ImageView
         android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:id="@+id/imageDish"
         android:layout_below="@+id/view2"
+        android:layout_marginTop="32dip"
         android:layout_alignStart="@+id/earliest_goalDate" />
 
     <!--Rewards -->
+    <TextView
+        android:id="@+id/reward_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24dp"
+        android:text="          Rewards for today"
+        android:background="?attr/colorPrimary"
+        android:layout_below="@+id/imageDish"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="1dip"
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/reward_text"
         android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="24dp"
-        android:layout_below="@+id/imageDish"
+        android:textSize="18dp"
+        android:layout_below="@+id/reward_bar"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dip" />
+        android:layout_marginTop="10dip"
+        android:layout_marginLeft="20dip"  />
 
     <TextView
         android:id="@+id/reward_to_do"
@@ -199,7 +226,7 @@
         android:layout_height="700dp"
         android:textSize="18dp"
         android:gravity="center_horizontal"
-        android:layout_below="@+id/imageDish"
+        android:layout_below="@+id/reward_bar"
         android:layout_toStartOf="@+id/read_result"
         android:layout_marginLeft="90dip"
         android:layout_marginRight="400dip"
@@ -210,7 +237,7 @@
         android:layout_width="250dp"
         android:layout_height="200dp"
         android:id="@+id/imageReward"
-        android:layout_below="@+id/imageDish"
+        android:layout_below="@+id/reward_bar"
         android:layout_alignStart="@+id/earliest_goalDate"
         android:adjustViewBounds = "true"
         android:layout_centerInParent="true"

@@ -146,7 +146,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textDietsData"
         android:layout_alignTop="@+id/spinnerDiet"
-        android:layout_marginTop="30dip" />
+        android:layout_marginTop="30dip"
+        android:layout_marginLeft="10dip" />
 
 
 </RelativeLayout>

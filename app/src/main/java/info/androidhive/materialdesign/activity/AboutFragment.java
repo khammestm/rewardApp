@@ -16,7 +16,7 @@ import android.widget.TextView;
 import info.androidhive.materialdesign.R;
 
 /**
- * Created by Ravi on 29/07/15.
+ * Created by Daria
  */
 
 

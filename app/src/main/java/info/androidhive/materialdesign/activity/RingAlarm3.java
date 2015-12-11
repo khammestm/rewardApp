@@ -1,5 +1,7 @@
 package info.androidhive.materialdesign.activity;
-
+/**
+ * Created by Daria, Roma, Alper
+ */
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
