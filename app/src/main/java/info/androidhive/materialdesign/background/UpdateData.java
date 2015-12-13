@@ -1,10 +1,4 @@
-/**
- * Created by rshir on 28.11.2015.
- */
-/**
- * Created by Daria, Roma, Alper
- */
-package info.androidhive.materialdesign.activity;
+package info.androidhive.materialdesign.background;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -19,21 +13,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,12 +27,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import info.androidhive.materialdesign.R;
-import info.androidhive.materialdesign.background.DeviceDataReceiver;
+import info.androidhive.materialdesign.activity.DataBase;
 import info.androidhive.materialdesign.device.BluetoothLeService;
 import info.androidhive.materialdesign.device.GattAttributes;
 
-public class StepsFragment extends Fragment {
+/**
+ * Created by rshir on 12.12.2015.
+ */
+public class UpdateData {
     private static final String TAG = "Bluetooth Device: ";
 
     private BluetoothAdapter mBluetoothAdapter;
@@ -65,141 +53,37 @@ public class StepsFragment extends Fragment {
     private AlarmManager mAlarmManager;
     private Context mContext;
     private PendingIntent pendingIntent;
+    public Activity activity;
 
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
     public static final String DEVICE_MAC = "88:0F:10:95:88:12";
     public static final String DEVICE_NAME = "MI";
 
-    public StepsFragment() {
-        // Required empty public constructor
+    public UpdateData(Activity activity) {
+        this.activity = activity;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    // Connect to bluetooth device and update the database information
+    public void receiveAndUpdateData() {
         // Setup Bluetooth device
         mDeviceName = DEVICE_NAME;
         mDeviceAddress = DEVICE_MAC;
-        mContext = getActivity().getApplicationContext();
-
-        // Use this check to determine whether BLE is supported on the device.  Then you can
-        // selectively disable BLE-related features.
-        if (!getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            Toast.makeText(getActivity(), R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
-            getActivity().finish();
-        }
-
-        // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
-        // BluetoothAdapter through BluetoothManager.
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
-
-        // Checks if Bluetooth is supported on the device.
-        if (mBluetoothAdapter == null) {
-            Toast.makeText(getActivity(), R.string.error_bluetooth_not_supported, Toast.LENGTH_SHORT).show();
-            getActivity().finish();
-            return;
-        }
 
         // Start intent service for device connection and data receiving
-        Intent gattServiceIntent = new Intent(getActivity(), BluetoothLeService.class);
-        getActivity().bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        Intent gattServiceIntent = new Intent(activity, BluetoothLeService.class);
+        activity.bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        activity.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 
-        // Write data from fitness band to DB
-        //reconnect();
-        //if(mData != null){
-        //    writeDataToDB(mData);
-        //}
-
-        //Intent alarmIntent = new Intent(getActivity(), DeviceDataReceiver.class);
-        //pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, 0);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-        if (mBluetoothLeService != null) {
-            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
-            Log.d(TAG, "Connect request result=" + result);
-        }
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_steps, container, false);
-
-        mDataField = (TextView) rootView.findViewById(R.id.step_data);
-        String message = "Press REFRESH";
-        mDataField.setText(message);
-
-        Button reconnectButton = (Button) rootView.findViewById(R.id.reconnect);
-        reconnectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Button REFRESH Clicked", Toast.LENGTH_SHORT).show();
-                reconnect();
-                if(mData != null){
-                    writeDataToDB(mData);
-                }
-            }
-        });
-
-        mDbHelper = new DataBase(getActivity());
-        mDb = mDbHelper.getWritableDatabase();
-
-        final TextView dataBaseField = (TextView) rootView.findViewById(R.id.show_result);
-
-        Button writeDbButton = (Button) rootView.findViewById(R.id.write_result);
-        writeDbButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startDataService();
-            }
-        });
-
-        Button readDbButton = (Button) rootView.findViewById(R.id.read_result);
-        readDbButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Read to Database", Toast.LENGTH_SHORT).show();
-                Cursor cursor = mDbHelper.getLastDataRecord();
-                String id = cursor.getString(cursor.getColumnIndex("_id"));
-                String date = cursor.getString(cursor.getColumnIndex("date"));
-                String steps = cursor.getString(cursor.getColumnIndex("steps"));
-                String distance = cursor.getString(cursor.getColumnIndex("distance"));
-                String calories = cursor.getString(cursor.getColumnIndex("calories"));
-                dataBaseField.setText(
-                        "ID:"+id+"\n" +
-                        "Date:"+date+"\n" +
-                        "Steps:"+steps+"\n" +
-                        "Distance: "+distance+"\n" +
-                        "Calories: "+calories);
-            }
-        });
-
-        // Close database
-        mDbHelper.close();
-
-        // Inflate the layout for this fragment
-        return rootView;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+        // Reconnect to be sure that we will receive the data
         reconnect();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
+        if(mData != null){
+            writeDataToDB(mData);
+        }
+        if (mBluetoothLeService != null){
+            mBluetoothLeService.close();
+            activity.unregisterReceiver(mGattUpdateReceiver);
+        }
     }
 
     // Code to manage Service lifecycle.
@@ -210,7 +94,7 @@ public class StepsFragment extends Fragment {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
             if (!mBluetoothLeService.initialize()) {
                 Log.e(TAG, "Unable to initialize Bluetooth");
-                getActivity().finish();
+                //getActivity().finish();
             }
             // Automatically connects to the device upon successful start-up initialization.
             mBluetoothLeService.connect(mDeviceAddress);
@@ -222,19 +106,14 @@ public class StepsFragment extends Fragment {
         }
     };
 
-    private void displayData(String data){
-        if(data != null){
-            mDataField.setText(data);
-            mData = data;
-        }
-    }
-
+    // Reconnect for Bluetooth device
     private void reconnect(){
         if (mConnected)
-            mBluetoothLeService.disconnect();
+            mBluetoothLeService.close();
 //            mBluetoothLeService.close();
         Log.d(TAG, "Reconnecting");
         if (mBluetoothLeService != null){
+            mBluetoothLeService.close();
             mBluetoothLeService.connect(mDeviceAddress);
         }
     }
@@ -258,7 +137,6 @@ public class StepsFragment extends Fragment {
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 mData = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
-                displayData(mData);
                 writeDataToDB(mData);
                 mBluetoothLeService.close();
             }
@@ -317,7 +195,7 @@ public class StepsFragment extends Fragment {
      * Convert steps measurements to calories
      * @param steps - fitness band measurement of steps
      * @return caloeris - measurement of calories in kcal
-    */
+     */
     private String convertToCalories(String steps){
         double stepsInt = Double.parseDouble(steps);
         double calories = stepsInt * 0.048;
@@ -329,6 +207,7 @@ public class StepsFragment extends Fragment {
     }
 
     private void writeDataToDB(String data){
+        mDbHelper = new DataBase(activity);
         mDb = mDbHelper.getWritableDatabase();
         Cursor cursor = mDbHelper.getLastDataRecord();
         // Check if cursor is empty
@@ -342,7 +221,6 @@ public class StepsFragment extends Fragment {
         String dateDB = cursor.getString(cursor.getColumnIndex("date"));
         long id = cursor.getLong(cursor.getColumnIndex("_id"));
         Log.d(TAG, "Data record " + dateDB);
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date dateDBform = format.parse(dateDB);
@@ -361,13 +239,5 @@ public class StepsFragment extends Fragment {
 
         mDbHelper.close();
     }
-
-
-    public void startDataService() {
-        AlarmManager manager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        int interval = 1000*30;
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-        Toast.makeText(getActivity(), "Alarm Set", Toast.LENGTH_SHORT).show();
-    }
-
 }
+

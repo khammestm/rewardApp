@@ -55,8 +55,7 @@ public class DeviceService extends WakeReminderIntentService {
 
     @Override
     public int onStartCommand(Intent intent,int flags, int startId){
-        //Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-        Log.d("Alarm", "I am running");
+        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
 
         // Start intent service for device connection and data receiving
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
@@ -64,11 +63,7 @@ public class DeviceService extends WakeReminderIntentService {
 
         this.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         reconnect();
-//           if (mBluetoothLeService != null) {
-//            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
-//            Log.d(TAG, "Connect request result=" + result);
-//        }
-       return START_STICKY;
+        return START_STICKY;
     }
 
     @Override
@@ -79,13 +74,12 @@ public class DeviceService extends WakeReminderIntentService {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     void doReminderWork(Intent intent){
-
-        // Status bar notification Code goes here.
     }
 
     // Code to manage Service lifecycle.
@@ -131,8 +125,10 @@ public class DeviceService extends WakeReminderIntentService {
     };
 
     private void reconnect(){
-        if (mConnected)
+        if (mConnected) {
             mBluetoothLeService.disconnect();
+            //mBluetoothLeService.close();
+        }
         Log.d(TAG, "Reconnecting");
         if (mBluetoothLeService != null){
             mBluetoothLeService.connect(mDeviceAddress);

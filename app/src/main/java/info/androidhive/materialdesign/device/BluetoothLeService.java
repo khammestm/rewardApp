@@ -211,13 +211,14 @@ public class BluetoothLeService extends Service {
         // Previously connected device.  Try to reconnect.
         if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress)
                 && mBluetoothGatt != null) {
+            mBluetoothGatt.close();
             Log.d(TAG, "Trying to use an existing mBluetoothGatt for connection.");
-            if (mBluetoothGatt.connect()) {
-                mConnectionState = STATE_CONNECTING;
-                return true;
-            } else {
-                return false;
-            }
+            //if (mBluetoothGatt.connect()) {
+            //    mConnectionState = STATE_CONNECTING;
+            //    return true;
+            //} else {
+            //    return false;
+            //}
         }
 
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
@@ -258,6 +259,7 @@ public class BluetoothLeService extends Service {
         }
         mBluetoothGatt.close();
         mBluetoothGatt = null;
+        Log.d(TAG, "Closed BluetoothLeService");
     }
 
     /**

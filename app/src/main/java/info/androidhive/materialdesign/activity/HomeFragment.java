@@ -30,6 +30,7 @@ import info.androidhive.materialdesign.R;
 import info.androidhive.materialdesign.auxilary.TestDataMonth;
 import info.androidhive.materialdesign.activity.StatsFragment;
 import info.androidhive.materialdesign.background.DeviceService;
+import info.androidhive.materialdesign.background.UpdateData;
 
 public class HomeFragment extends Fragment {
     private DataBase mDbHelper;
@@ -44,8 +45,9 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkDatabaseForData();
-        Intent service = new Intent(getActivity(), DeviceService.class);
-        getActivity().startService(service);
+        //Intent service = new Intent(getActivity(), DeviceService.class);
+        //getActivity().startService(service);
+        //getActivity().stopService(service);
     }
 
     @Override
@@ -422,8 +424,9 @@ public class HomeFragment extends Fragment {
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent service = new Intent(getActivity(), DeviceService.class);
-                getActivity().startService(service);
+                // Get the data and write it to database from bluetooth device
+                UpdateData updateData = new UpdateData(getActivity());
+                updateData.receiveAndUpdateData();
 
                 String data_today = showLastDataRecord();
                 data_home_distance.setText(data_today);
@@ -435,22 +438,19 @@ public class HomeFragment extends Fragment {
 
                 String data_today_steps = data_today.substring(0, data_today.lastIndexOf("Distance: "));
                 data_home_steps.setText(data_today_steps);
+
             }
         });
-
-
         //recommendation.setText(String.valueOf(index));
-
-
-
         return rootView;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        Intent service = new Intent(getActivity(), DeviceService.class);
-        getActivity().startService(service);
+        //Intent service = new Intent(getActivity(), DeviceService.class);
+        //getActivity().startService(service);
+        //getActivity().stopService(service);
     }
 
     @Override
@@ -521,7 +521,6 @@ public class HomeFragment extends Fragment {
     public static int abs(int a) {
         return  (a < 0) ? -a : a;
     }
-
 
     private String ReadPersonalName(){
         mDbHelper = new DataBase(getActivity());

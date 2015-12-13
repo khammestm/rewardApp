@@ -317,20 +317,29 @@ public class StatsFragment extends Fragment {
         mDb = mDbHelper.getReadableDatabase();
         DataPoint[] dataPoints = new DataPoint[days+1];
         Cursor mCursor = mDbHelper.getLastNDataRecord(days);
-        int i = 0; int j = 0;
-        while(mCursor.moveToNext()){
-            String distance = mCursor.getString(mCursor.getColumnIndex(parameter));
-            //String day_month = mCursor.getString(mCursor.getColumnIndex("date")).substring(5, 10);
+
+        for (int i = 0; i < days; i++) {
             try {
+                mCursor.moveToNext();
+                String distance = mCursor.getString(mCursor.getColumnIndex(parameter));
                 dataPoints[i] = new DataPoint(i+1, Integer.parseInt(distance));
-            } catch (NullPointerException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 dataPoints[i] = new DataPoint(i+1, 0);
             }
-            i++;
         }
+//        while(mCursor.moveToNext()){
+//
+//            //String day_month = mCursor.getString(mCursor.getColumnIndex("date")).substring(5, 10);
+//            try {
+//                dataPoints[i] = new DataPoint(i+1, Integer.parseInt(distance));
+//            } catch (NullPointerException e) {
+//                e.printStackTrace();
+//                dataPoints[i] = new DataPoint(i+1, 0);
+//            }
+//            i++;
+//        }
         mDbHelper.close();
-        DataPoint[] zeros = new DataPoint[j];
         DataPoint[] dataCustomPoints = Arrays.copyOfRange(dataPoints, 0, days-differenceEndDayToday);
         return dataCustomPoints;
     }
@@ -357,9 +366,9 @@ public class StatsFragment extends Fragment {
 
     private void setCustomDateGraph(){
         if(mStartDate != null && mEndDate != null){
-            if (mEndDate.compareTo(mStartDate) > 0) {
+            if (mEndDate.compareTo(mStartDate) > 0 && mEndDate.compareTo(new GregorianCalendar()) <= 0) {
                 dayDifference(mStartDate, mEndDate);
-                BarGraphSeries<DataPoint> seriesWeek = new BarGraphSeries<DataPoint>(createCustomDataPoints(1));
+                BarGraphSeries<DataPoint> seriesWeek = new BarGraphSeries<DataPoint>(createCustomDataPoints(mPosition));
 
                 graph1.removeAllSeries();
                 graph1.addSeries(seriesWeek);
