@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="info.androidhive.materialdesign" >
+    package="info.androidhive.fitnessreward" >
 
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name="info.androidhive.fitnessreward.activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -30,19 +30,19 @@
             android:name=".BroadcastReceiver.MyBroadcastReceiver"
             />-->
         <activity
-            android:name=".activity.RingAlarm"
+            android:name="info.androidhive.fitnessreward.activity.RingAlarm"
             />
         <activity
-            android:name=".activity.RingAlarm2"
+            android:name="info.androidhive.fitnessreward.activity.RingAlarm2"
             />
         <activity
-            android:name=".activity.RingAlarm3"
+            android:name="info.androidhive.fitnessreward.activity.RingAlarm3"
             />
 
-        <service android:name=".device.BluetoothLeService" android:enabled="true"/>
-        <service android:name=".background.DeviceService" android:enabled="true"/>
-        <receiver android:name=".background.DeviceDataReceiver" />
-        <receiver android:name=".activity.MyBroadcastReceiver" />
+        <service android:name="info.androidhive.fitnessreward.device.BluetoothLeService" android:enabled="true"/>
+        <service android:name="info.androidhive.fitnessreward.background.DeviceService" android:enabled="true"/>
+        <receiver android:name="info.androidhive.fitnessreward.background.DeviceDataReceiver" />
+        <receiver android:name="info.androidhive.fitnessreward.activity.MyBroadcastReceiver" />
 
 
 
