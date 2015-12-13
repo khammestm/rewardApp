@@ -8,17 +8,19 @@
         android:orientation="horizontal" >
 
         <TextView
+            android:layout_marginLeft="20dp"
             android:layout_width="0dp"
-            android:layout_weight="0.6"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:textSize="32dp"
+            android:textSize="35dp"
             android:text="Goal Deadline"/>
 
         <TextView
+            android:layout_marginLeft="-10dp"
             android:layout_width="0dp"
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:textSize="32dp"
+            android:textSize="35dp"
             android:text="Goal Step"/>
 
     </LinearLayout>
